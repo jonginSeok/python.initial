@@ -11,6 +11,12 @@ from sklearn.model_selection import train_test_split # 학습용/검증용 분�
 from torchsummary import summary
 # from torchinfo import summary  # torchsummary 대신 사용할 수 있음
 
+# pip install torchsummary
+# pip install matplotlib
+# pip install numpy
+# pip install torch
+# pip install scikit-learn
+
 # 2. 데이터 생성
 np.random.seed(0) # 무작위 seed 값 설정. seed 값이 같으면 결과가 같다.  42 -> 0
 

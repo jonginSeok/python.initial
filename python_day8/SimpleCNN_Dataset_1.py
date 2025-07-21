@@ -32,7 +32,7 @@ data_path = "./dataset"
 # label_map 정의
 label_map = {'cat': 0, 'dog': 1}
 class_names = list(label_map.keys())
-
+ 
 # 커스텀 Dataset 적용
 train_dataset = CustomImageDataset(root_dir=data_path+'/train', label_map=label_map, transform=transform)
 valid_dataset = CustomImageDataset(root_dir=data_path+'/val', label_map=label_map, transform=transform)
