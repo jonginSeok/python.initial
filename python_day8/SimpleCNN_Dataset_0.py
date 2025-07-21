@@ -23,4 +23,4 @@ class CustomImageDataset(Dataset):
         image = Image.open(img_path).convert("RGB")
         if self.transform:
             image = self.transform(image)
-        return image, label
+        return image, label #가로, 세로, 넓이 ... 등을 추가하여 더  많은 정보를 전달한다.
