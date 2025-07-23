@@ -11,6 +11,11 @@ from sklearn.model_selection import train_test_split # 학습용/검증용 분�
 from torchsummary import summary
 # from torchinfo import summary  # torchsummary 대신 사용할 수 있음
 
+# pip install torch
+# pip install pillow
+# pip install matplotlab
+
+
 # pip install torchsummary
 # pip install matplotlib
 # pip install numpy
