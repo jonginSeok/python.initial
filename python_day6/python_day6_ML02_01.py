@@ -1,33 +1,31 @@
 # y = 3x^3 + 2x^2 + x +5 
 
 # 1. 라이브러리 임포트
+import numpy as np
+import matplotlib.pyplot as plt
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import matplotlib.pyplot as plt
-import numpy as np
+from torchsummary import summary
 from sklearn.model_selection import train_test_split # 학습용/검증용 분할
 
-from torchsummary import summary
 # from torchinfo import summary  # torchsummary 대신 사용할 수 있음
 
-# pip install torch
-# pip install pillow
-# pip install matplotlab
-
-
-# pip install torchsummary
-# pip install matplotlib
 # pip install numpy
+# pip install pandas
+# pip install matplotlib
 # pip install torch
+# pip install torchsummary
+# pip install pillow
 # pip install scikit-learn
 
 # 2. 데이터 생성
 np.random.seed(0) # 무작위 seed 값 설정. seed 값이 같으면 결과가 같다.  42 -> 0
 
 # x_np = np.linspace(-5, 5, 200) # x 는 문제 , y 는 정답
-x_np = np.linspace(-5, 5, 100) # x 는 문제 , y 는 정답
 # y_np = 3 * x_np**2 + 2 + np.random.normal(0, 5, size=x_np.shape) # 노이즈가 심함.
+
+x_np = np.linspace(-5, 5, 100) # x 는 문제 , y 는 정답
 y_np = 3 * x_np**3 + 2 * x_np**2 + 5 + np.random.normal(0, 0, size=x_np.shape) # 노이즈가 심함.
 
 # 3. 훈련/검증 데이터 분리 (Overfitting 감지를 위해)
