@@ -22,13 +22,16 @@ transform = transforms.Compose([
     transforms.ToTensor(),              # 이미지를 PyTorch 텐서로 변환
     transforms.Normalize([0.5], [0.5])  # 빠르고 안정적인 학습을 위한 정규화(0~1 -> -1~1), (x-0.5)/0.5
 ])
+
 # data_path = "/content/drive/MyDrive/Python_AI/CNN/dataset"
 data_path = "/content/drive/MyDrive/Python_AI/CNN/dataset"
+
 train_dataset = datasets.ImageFolder(root=data_path+'/train', transform=transform)
 valid_dataset = datasets.ImageFolder(root=data_path+'/val', transform=transform)
 
 train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)  # 모델이 순서에 영향을 받지 않도록 매 epoch마다 무작위로 섞는다
 valid_loader = DataLoader(valid_dataset, batch_size=BATCH_SIZE, shuffle=False) # 데이터 순서 고정
+
 # 이미지의 픽셀정보만이 아니라 이미지의 많은 정보 데이터를 로드하여 학습의 정확성을 높이는데 사용한다.
 
 class_names = train_dataset.classes  # ['cat', 'dog']

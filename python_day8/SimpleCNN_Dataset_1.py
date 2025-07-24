@@ -24,6 +24,7 @@ transform = transforms.Compose([
     transforms.ToTensor(),              # 이미지를 PyTorch 텐서로 변환
     transforms.Normalize([0.5], [0.5])  # 빠르고 안정적인 학습을 위한 정규화(0~1 -> -1~1), (x-0.5)/0.5
 ])
+
 # data_path = "/content/drive/MyDrive/Python_AI/CNN/dataset"
 data_path = "./dataset"
 #train_dataset = datasets.ImageFolder(root=data_path+'/train', transform=transform)

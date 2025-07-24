@@ -41,7 +41,7 @@ model = nn.Sequential(
     nn.ReLU(),         # 위의 레이어에 포함된 각 노드에 연결됨
     nn.Linear(64, 64),
     nn.ReLU(),
-    nn.Linear(64, 64), # https://www.bing.com/images/search?view=detailV2&ccid=2DWFdeh9&id=D4CD2A8598E69FA5959D1A4DDB0511075B688E19&thid=OIP.2DWFdeh9FLfdxYYr5bFtVgHaDu&mediaurl=https%3A%2F%2Fmiro.medium.com%2Fmax%2F1200%2F1*ZafDv3VUm60Eh10OeJu1vw.png&exph=603&expw=1200&q=Activation+Functions+ReLU&simid=608018141626776315&FORM=IRPRST&ck=76D4DDE3DAEBDE707AE8ED2E373F6048&selectedIndex=1&itb=0&cw=1728&ch=861&ajaxhist=0&ajaxserp=0
+    nn.Linear(64, 64), 
     nn.ReLU(),         # Activation Function, ReLU : 양수만 추출, 비선형 효과
     nn.Linear(64, 64),
     nn.ReLU(),         
@@ -49,6 +49,8 @@ model = nn.Sequential(
     nn.ReLU(),
     nn.Linear(64, 1)   # 출력 1개, 1 -> 1의 의미`
 )
+
+# https://www.bing.com/images/search?view=detailV2&ccid=2DWFdeh9&id=D4CD2A8598E69FA5959D1A4DDB0511075B688E19&thid=OIP.2DWFdeh9FLfdxYYr5bFtVgHaDu&mediaurl=https%3A%2F%2Fmiro.medium.com%2Fmax%2F1200%2F1*ZafDv3VUm60Eh10OeJu1vw.png&exph=603&expw=1200&q=Activation+Functions+ReLU&simid=608018141626776315&FORM=IRPRST&ck=76D4DDE3DAEBDE707AE8ED2E373F6048&selectedIndex=1&itb=0&cw=1728&ch=861&ajaxhist=0&ajaxserp=0
 
 # 5. 손실 함수, 옵티마이저
 criterion = nn.MSELoss()
