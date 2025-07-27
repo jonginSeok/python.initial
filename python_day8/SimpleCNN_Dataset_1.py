@@ -12,7 +12,7 @@ from SimpleCNN_Dataset_0 import CustomImageDataset
 
 # 1. 하이퍼파라미터 및 설정
 BATCH_SIZE = 4
-EPOCHS = 100
+EPOCHS = 20
 LR = 0.001
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("DEVICE=", DEVICE)
@@ -26,9 +26,9 @@ transform = transforms.Compose([
 ])
 
 # data_path = "/content/drive/MyDrive/Python_AI/CNN/dataset"
-data_path = "./dataset"
+data_path = "./dataset/cat_dog"  # 데이터셋 경로 설정
 #train_dataset = datasets.ImageFolder(root=data_path+'/train', transform=transform)
-#valid_dataset = datasets.ImageFolder(root=data_path+'/val', transform=transform)
+#valid_dataset = datasets.ImageFolder(root=data_path+'/valid', transform=transform)
 
 # label_map 정의
 label_map = {'cat': 0, 'dog': 1}
@@ -36,7 +36,7 @@ class_names = list(label_map.keys())
  
 # 커스텀 Dataset 적용
 train_dataset = CustomImageDataset(root_dir=data_path+'/train', label_map=label_map, transform=transform)
-valid_dataset = CustomImageDataset(root_dir=data_path+'/val', label_map=label_map, transform=transform)
+valid_dataset = CustomImageDataset(root_dir=data_path+'/valid', label_map=label_map, transform=transform)
 
 train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)  # 모델이 순서에 영향을 받지 않도록 매 epoch마다 무작위로 섞는다
 valid_loader = DataLoader(valid_dataset, batch_size=BATCH_SIZE, shuffle=False) # 데이터 순서 고정
@@ -70,7 +70,7 @@ criterion = nn.CrossEntropyLoss()  # Softmax 포함
 optimizer = optim.Adam(model.parameters(), lr=LR)
 
 # 4. 학습 및 시각화용 리스트
-train_acc_list, val_acc_list = [], []
+train_acc_list, valid_acc_list = [], []
 
 for epoch in range(EPOCHS):
     model.train()
@@ -98,14 +98,15 @@ for epoch in range(EPOCHS):
             outputs = model(x)
             correct += (outputs.argmax(1) == y).sum().item()
             total += y.size(0)
-    val_acc = correct / total
-    val_acc_list.append(val_acc)
+    valid_acc = correct / total
+    valid_acc_list.append(valid_acc)
 
-    print(f"Epoch {epoch+1} | Loss: {loss_total:.4f} | Train Acc: {train_acc:.4f} | Val Acc: {val_acc:.4f}")
+    print(f"Epoch {epoch+1} | Loss: {loss_total:.4f} | Train Acc: {train_acc:.4f} | Valid Acc: {valid_acc:.4f}")
 
 # 5. 학습 시각화
+plt.plot(loss_total, label='Loss_total')
 plt.plot(train_acc_list, label='Train Accuracy')
-plt.plot(val_acc_list, label='Validation Accuracy')
+plt.plot(valid_acc_list, label='Validation Accuracy')
 plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 plt.title('Training Progress')
@@ -132,4 +133,4 @@ def predict_image(image_path):
     plt.show()
 
 # 9. 예측 실행 예시
-predict_image(data_path+'/val/cat/cat1.jpg')  # 실제 파일 경로 지정
+predict_image(data_path+'/test/cat3.jpg')  # 실제 파일 경로 지정
