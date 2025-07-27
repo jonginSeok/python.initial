@@ -4,9 +4,9 @@ import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
 import numpy as np
+from torchsummary import summary
 from sklearn.model_selection import train_test_split # 학습용/검증용 분할
 
-from torchsummary import summary
 # from torchinfo import summary  # torchsummary 대신 사용할 수 있음
 
 # 2. 데이터 생성

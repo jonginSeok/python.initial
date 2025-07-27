@@ -2,10 +2,10 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
+import matplotlib.pyplot as plt
 from sklearn.datasets import make_classification
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
-import matplotlib.pyplot as plt
 
 # 1. 데이터 생성 (클래스 3개)
 X, y = make_classification(n_samples=1000, n_features=4, n_classes=3,

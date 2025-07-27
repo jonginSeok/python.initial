@@ -1,13 +1,17 @@
-import cv2
+import cv2 # pip install opencv-python
 import os
 import glob
 
-# 🗂️ 설정: 원본 이미지 폴더 및 저장 위치
-input_folder = 'C:\\Users\\ngins\\Downloads\\Bottle Detection.v4i.yolov11\\train\\images\\'        # 원본 이미지 폴더 경로
-output_folder = 'C:\\Users\\ngins\\Downloads\\Bottle Detection.v4i.yolov11\\train\\images\\ratio50\\' #'your_output_folder_path'  # 저장할 폴더 경로
 
-input_labels_folder = 'C:\\Users\\ngins\\Downloads\\Bottle Detection.v4i.yolov11\\train\\labels\\'
-output_labels_folder = 'C:\\Users\\ngins\\Downloads\\Bottle Detection.v4i.yolov11\\train\\labels\\ratio50\\'
+angleX = 270  # 회전 비율 (90도 회전)
+ratio = f'rat{angleX}'  # 파일명에 추가할 회전 비율
+
+# 🗂️ 설정: 원본 이미지 폴더 및 저장 위치
+input_folder = 'C:/Users/ngins/Git/python.initial/dataset/bottle.yolov11/train/images/'        # 원본 이미지 폴더 경로
+output_folder = 'C:/Users/ngins/Git/python.initial/dataset/bottle.yolov11/train/images/'+ratio+'/' #'your_output_folder_path'  # 저장할 폴더 경로
+
+input_labels_folder = 'C:/Users/ngins/Git/python.initial/dataset/bottle.yolov11/train/labels/'
+output_labels_folder = 'C:/Users/ngins/Git/python.initial/dataset/bottle.yolov11/train/labels/'+ratio+'/'
 
 # 폴더가 없으면 생성
 os.makedirs(output_folder, exist_ok=True)
@@ -56,12 +60,12 @@ for label_file in label_files:
             continue  # 잘못된 형식의 라벨은 무시
         class_id = parts[0]
         x_center, y_center, width, height = map(float, parts[1:5])
-        new_lines.append(f"{class_id} {x_center} {y_center} {width} {height}\n")
+        new_lines.append(f"{class_id} {x_center} {y_center} {width} {height}/n")
 
     # 새 라벨 파일 저장
     label_name = os.path.basename(label_file)
 #    new_label_file = os.path.join(output_folder, label_name)
-    new_label_file = os.path.join(output_labels_folder, f"{label_name}_rat50.txt")
+    new_label_file = os.path.join(output_labels_folder, f"{label_name}_{ratio}.txt")
     
     with open(new_label_file, 'w') as f:
         f.writelines(new_lines)
@@ -73,13 +77,13 @@ for file in image_files:
         print(f"이미지 로딩 실패: {file}")
         continue
 
-    rotated = rotate_image(img, 50)  # 30도 회전
+    rotated = rotate_image(img, angleX)  # angleX도 회전
 
     # 🔤 저장 파일명 생성
     base = os.path.basename(file)
     name, ext = os.path.splitext(base)
-    print(f"처리 중: {file} -> {os.path} {name}_rat30{ext}")
-    output_file = os.path.join(output_folder, f"{name}_rat50{ext}")
+    print(f"처리 중: {file} -> {os.path} {name}_{ratio}{ext}")
+    output_file = os.path.join(output_folder, f"{name}_{ratio}{ext}")
 
     cv2.imwrite(output_file, rotated)
     print(f"저장 완료: {output_file}")

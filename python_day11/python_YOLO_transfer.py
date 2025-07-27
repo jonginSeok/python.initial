@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     # 2025.07.24 add
     model.train(
-        data='C:\\Users\\ngins\\Downloads\\Bottle Detection.v4i.yolov11\\data.yaml',
+        data='C:/Users/ngins/Downloads/Bottle Detection.v4i.yolov11/data.yaml',
         epochs=10,
         imgsz=640,
         batch=16,     # 메모리 문제로 배치 사이즈 줄임

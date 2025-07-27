@@ -13,18 +13,18 @@ print("DEVICE=", DEVICE)
 
 label_map = {'BAD': 0, 'GOOD': 1}  # class_names = ['BAD', 'GOOD']
 class_names = list(label_map.keys())  # ['BAD', 'GOOD']
-data_path = "C:\\Users\\ngins\\Git\\python.initial\\dataset\\dental\\images"
+data_path = "C:/Users/ngins/Git/python.initial/dataset/dental/images"
 
 model = CarrotCNNWithSize().to(DEVICE)
 
 # 모델 저장 (학습 루프 끝난 후)
-save_path = data_path + '\\Classification\\dental_cnn_with_size_letterbox.pth'
+save_path = data_path + '/Classification/dental_cnn_with_size_letterbox.pth'
 torch.save(model.state_dict(), save_path)
 print(f"Model saved to {save_path}")
 
 
 # 모델 다시 불러오기
-save_path = data_path + '\\Classification\\dental_cnn_with_size_letterbox.pth'
+save_path = data_path + '/Classification/dental_cnn_with_size_letterbox.pth'
 model = CarrotCNNWithSize().to(DEVICE)
 model.load_state_dict(torch.load(save_path, map_location=DEVICE))
 model.eval()  # 평가 모드 설정 (Dropout, BatchNorm 등 비활성화)
@@ -49,5 +49,5 @@ def predict_image(image_path):
     plt.show()
 
 
-# 'C:\\Users\\ngins\\Git\\python.initial\\dataset\\bottle\\test\\GOOD\\001.png'
-predict_image(data_path+'\\test\\BAD\\001.jpg')  # 실제 파일 경로 지정
+# 'C:/Users/ngins/Git/python.initial/dataset/bottle/test/GOOD/001.png'
+predict_image(data_path+'/test/BAD/001.jpg')  # 실제 파일 경로 지정

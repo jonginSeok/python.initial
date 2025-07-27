@@ -1,13 +1,13 @@
+# cat_dog_cnn
 import os
 import torch
+import numpy as np
 import torch.nn as nn
 import torch.optim as optim
-from torchvision import datasets, transforms
-from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 from PIL import Image
-import numpy as np
-
+from torchvision import datasets, transforms
+from torch.utils.data import DataLoader
 from SimpleCNN_Dataset_0 import CustomImageDataset
 
 # 1. 하이퍼파라미터 및 설정
@@ -115,10 +115,10 @@ plt.grid(True)
 plt.show()
 
 # 6. 모델 저장
-torch.save(model.state_dict(), "cat_dog_cnn.pth")
+torch.save(model.state_dict(), "cat_dog_cnn_day_08.pth")
 
 # 7. 모델 로드 (예시)
-model.load_state_dict(torch.load("cat_dog_cnn.pth", map_location=DEVICE))
+model.load_state_dict(torch.load("cat_dog_cnn_day_08.pth", map_location=DEVICE))
 model.eval()
 
 # 8. 실제 이미지 예측 함수

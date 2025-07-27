@@ -1,8 +1,7 @@
 # ====== 전이학습 후 학습된 모델을 사용하여 병 이미지 분류 테스트 ======
-
-from ultralytics import YOLO
-import matplotlib.pyplot as plt
 import cv2
+import matplotlib.pyplot as plt
+from ultralytics import YOLO
 
 # 1. 경로 설정
 model_path = 'C:/Users/ngins/Git/python.initial/runs/detect/yolo11n_add_cup_class16/weights/best.pt'

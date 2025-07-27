@@ -1,12 +1,13 @@
 from ultralytics import YOLO
 import cv2
-from google.colab.patches import cv2_imshow
+# from google.colab.patches import cv2_imshow
 
 # 1. YOLOv8 Pose 모델 로드
 model = YOLO('yolo11n-pose.pt')  # yolov8s-pose.pt 또는 yolov8m-pose.pt 가능
 
 # 2. 비디오 파일 열기
-video_path = '/content/drive/MyDrive/Python_AI/YOLO/test_mp4/walk_man_left_with_phone.mp4'
+# video_path = '/content/drive/MyDrive/Python_AI/YOLO/test_mp4/walk_man_left_with_phone.mp4'
+video_path = 'C:/Users/ngins/Pictures/New Kids On The Block - Commercial from Coca Cola - Studio Version by DaniMusicFan.mp4'
 cap = cv2.VideoCapture(video_path)
 cap = cv2.VideoCapture(0)
 
@@ -32,8 +33,8 @@ while cap.isOpened():
     annotated_frame = results[0].plot()
 
     # 화면에 출력 (선택사항)
-    #cv2.imshow('YOLO-Pose Detection', annotated_frame)
-    cv2_imshow(annotated_frame)
+    cv2.imshow('YOLO-Pose Detection', annotated_frame)
+    # cv2_imshow(annotated_frame) # from google.colab.patches import cv2_imshow
 
     # 비디오 파일로 저장
     out.write(annotated_frame)

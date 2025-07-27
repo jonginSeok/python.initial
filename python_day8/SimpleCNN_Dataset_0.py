@@ -1,3 +1,4 @@
+# cat_dog_cnn,
 # 사용자 정의 Dataset 클래스 추가
 import os
 from torch.utils.data import Dataset

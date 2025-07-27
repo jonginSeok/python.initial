@@ -1,9 +1,6 @@
 # Dataset 클래스
 from torch.utils.data import Dataset
 from PIL import Image, ImageOps
-# pip install torch
-# pip install pillow
-# pip install matplotlab
 
 class CarrotDatasetWithSize(Dataset):
     def __init__(self, root_dir, label_map, transform=None):
@@ -109,11 +106,12 @@ transform = transforms.Compose([
 ])
 
 # data_path = "/content/drive/MyDrive/Python_AI/YOLO/Carrot Classification/CARROT원본"
-data_path = "C:\\Users\\ngins\\Git\\python.initial\\dataset\\dental\\images"
+
+data_path = "C:/Users/ngins/Git/python.initial/dataset/dental/images"
 BATCH_SIZE = 4
 label_map = {'BAD': 0, 'GOOD': 1}  # class_names = ['BAD', 'GOOD']
-train_dataset = CarrotDatasetWithSize(data_path + '\\train', label_map, transform=transform)
-valid_dataset = CarrotDatasetWithSize(data_path + '\\val', label_map, transform=transform)
+train_dataset = CarrotDatasetWithSize(data_path + '/train', label_map, transform=transform)
+valid_dataset = CarrotDatasetWithSize(data_path + '/val', label_map, transform=transform)
 
 # DataLoader 생성
 train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
@@ -133,7 +131,7 @@ model = CarrotCNNWithSize().to(DEVICE)   # 모델 생성 및 GPU에 이동
 criterion = nn.CrossEntropyLoss()        # Softmax 포함
 optimizer = optim.Adam(model.parameters(), lr=LR)
 
-train_acc_list, val_acc_list = [], []
+train_acc_list, valid_acc_list = [], []
 
 for epoch in range(EPOCHS):
     model.train()
@@ -160,7 +158,7 @@ for epoch in range(EPOCHS):
             outputs = model(x, size_feats)   # GPU에서 작동하는 모델이 리턴하는 값과 연산하는 대상 데이터도 GPU에 존재해야 한다
             correct += (outputs.argmax(1) == y).sum().item()   # GPU에서 리턴된 값과 연산하는 대상 데이터 y
             total += y.size(0)
-    val_acc = correct / total
-    val_acc_list.append(val_acc)
+    valid_acc = correct / total
+    valid_acc_list.append(valid_acc)
 
-    print(f"Epoch {epoch+1} | Loss: {loss_total:.4f} | Train Acc: {train_acc:.4f} | Val Acc: {val_acc:.4f}")
+    print(f"Epoch {epoch+1} | Loss: {loss_total:.4f} | Train Acc: {train_acc:.4f} | Valid Acc: {valid_acc:.4f}")

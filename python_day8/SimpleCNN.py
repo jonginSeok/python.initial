@@ -1,12 +1,13 @@
+# cat_dog_cnn
 import os
 import torch
+import numpy as np
 import torch.nn as nn
 import torch.optim as optim
-from torchvision import datasets, transforms
-from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 from PIL import Image
-import numpy as np
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
 
 # 1. 하이퍼파라미터 및 설정
 BATCH_SIZE = 4
@@ -27,7 +28,7 @@ transform = transforms.Compose([
 data_path = "/content/drive/MyDrive/Python_AI/CNN/dataset"
 
 train_dataset = datasets.ImageFolder(root=data_path+'/train', transform=transform)
-valid_dataset = datasets.ImageFolder(root=data_path+'/val', transform=transform)
+valid_dataset = datasets.ImageFolder(root=data_path+'/valid', transform=transform)
 
 train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)  # 모델이 순서에 영향을 받지 않도록 매 epoch마다 무작위로 섞는다
 valid_loader = DataLoader(valid_dataset, batch_size=BATCH_SIZE, shuffle=False) # 데이터 순서 고정
@@ -75,7 +76,7 @@ criterion = nn.CrossEntropyLoss()  # Softmax 포함
 optimizer = optim.Adam(model.parameters(), lr=LR)
 
 # 4. 학습 및 시각화용 리스트
-train_acc_list, val_acc_list = [], []
+train_acc_list, valid_acc_list = [], []
 
 for epoch in range(EPOCHS):
     model.train()
@@ -103,14 +104,14 @@ for epoch in range(EPOCHS):
             outputs = model(x)
             correct += (outputs.argmax(1) == y).sum().item()
             total += y.size(0)
-    val_acc = correct / total
-    val_acc_list.append(val_acc)
+    valid_acc = correct / total
+    valid_acc_list.append(valid_acc)
 
-    print(f"Epoch {epoch+1} | Loss: {loss_total:.4f} | Train Acc: {train_acc:.4f} | Val Acc: {val_acc:.4f}")
+    print(f"Epoch {epoch+1} | Loss: {loss_total:.4f} | Train Acc: {train_acc:.4f} | Val Acc: {valid_acc:.4f}")
 
 # 5. 학습 시각화
 plt.plot(train_acc_list, label='Train Accuracy')
-plt.plot(val_acc_list, label='Validation Accuracy')
+plt.plot(valid_acc_list, label='Validation Accuracy')
 plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 plt.title('Training Progress')

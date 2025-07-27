@@ -1,12 +1,12 @@
 import os
 import torch
+import numpy as np
 import torch.nn as nn
 import torch.optim as optim
-from torchvision import datasets, transforms
-from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 from PIL import Image
-import numpy as np
+from torch.utils.data import DataLoader
+from torchvision import datasets, transforms
 
 from SimpleCNN_dataset_0 import CustomImageDataset
 
@@ -27,7 +27,7 @@ transform = transforms.Compose([
 ])
 
 # data_path = "/content/drive/MyDrive/Python_AI/CNN/dataset" # google drive
-data_path = "C:\\Users\\ngins\\Git\\python.initial\\dataset\\cat_dog" # local
+data_path = "C:/Users/ngins/Git/python.initial/dataset/cat_dog" # local
 
 #train_dataset = datasets.ImageFolder(root=data_path+'/train', transform=transform)
 #valid_dataset = datasets.ImageFolder(root=data_path+'/val', transform=transform)
@@ -40,8 +40,8 @@ class_names = list(label_map.keys())
 # train_dataset = CustomImageDataset(root_dir=data_path+'/train', label_map=label_map, transform=transform) # google drive
 # valid_dataset = CustomImageDataset(root_dir=data_path+'/val', label_map=label_map, transform=transform)
 
-train_dataset = CustomImageDataset(root_dir=data_path+'\\train', label_map=label_map, transform=transform) # local
-valid_dataset = CustomImageDataset(root_dir=data_path+'\\valid', label_map=label_map, transform=transform)
+train_dataset = CustomImageDataset(root_dir=data_path+'/train', label_map=label_map, transform=transform) # local
+valid_dataset = CustomImageDataset(root_dir=data_path+'/valid', label_map=label_map, transform=transform)
 
 train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)  # 모델이 순서에 영향을 받지 않도록 epoch마다 무작위로 섞는다
 valid_loader = DataLoader(valid_dataset, batch_size=BATCH_SIZE, shuffle=False) # 데이터 순서 고정
@@ -77,7 +77,7 @@ criterion = nn.CrossEntropyLoss()  # Softmax 포함
 optimizer = optim.Adam(model.parameters(), lr=LR)
 
 # 4. 학습 및 시각화용 리스트
-train_acc_list, val_acc_list = [], []
+train_acc_list, valid_acc_list = [], []
 
 for epoch in range(EPOCHS):
     model.train()
@@ -105,14 +105,14 @@ for epoch in range(EPOCHS):
             outputs = model(x)
             correct += (outputs.argmax(1) == y).sum().item()
             total += y.size(0)
-    val_acc = correct / total
-    val_acc_list.append(val_acc)
+    valid_acc = correct / total
+    valid_acc_list.append(valid_acc)
 
-    print(f"Epoch {epoch+1} | Loss: {loss_total:.4f} | Train Acc: {train_acc:.4f} | Valid Acc: {val_acc:.4f}")
+    print(f"Epoch {epoch+1} | Loss: {loss_total:.4f} | Train Acc: {train_acc:.4f} | Valid Acc: {valid_acc:.4f}")
 
 # 5. 학습 시각화
 plt.plot(train_acc_list, label='Train Accuracy')
-plt.plot(val_acc_list, label='Validation Accuracy')
+plt.plot(valid_acc_list, label='Validation Accuracy')
 plt.xlabel('Epoch')
 plt.ylabel('Accuracy')
 plt.title('Training Progress')
@@ -121,10 +121,10 @@ plt.grid(True)
 plt.show()
 
 # 6. 모델 저장
-torch.save(model.state_dict(), "cat_dog_cnn.pth")
+torch.save(model.state_dict(), "cat_dog_cnn_day_09.pth")
 
 # 7. 모델 로드 (예시)
-model.load_state_dict(torch.load("cat_dog_cnn.pth", map_location=DEVICE))
+model.load_state_dict(torch.load("cat_dog_cnn_day_09.pth", map_location=DEVICE))
 model.eval()
 
 # 8. 실제 이미지 예측 함수
@@ -141,4 +141,4 @@ def predict_image(image_path):
 print("data_path:", data_path)  # 초기 예측 클래스 출력
 # 9. 예측 실행 예시
 # predict_image(data_path+'/val/cat/cat1.jpg')  # 실제 파일 경로 지정
-predict_image(data_path+'\\test\\cat1.jpg')  # 실제 파일 경로 지정
+predict_image(data_path+'/test/cat1.jpg')  # 실제 파일 경로 지정
