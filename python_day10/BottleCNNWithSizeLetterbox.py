@@ -109,7 +109,7 @@ transform = transforms.Compose([
     transforms.Normalize([0.5]*3, [0.5]*3)  # 빠르고 안정적인 학습을 위한 정규화(0~1 -> -1~1), (x-0.5)/0.5
 ])
 
-data_path = "C:/Users/ngins/Git/python.initial/python_day12/classification/Bottle"
+data_path = "C:/Users/ngins/Git/python.initial/dataset/bottle"
 BATCH_SIZE = 4
 label_map = {'BAD': 0, 'GOOD': 1}  # class_names = ['BAD', 'GOOD']
 train_dataset = BottleDatasetWithSize(data_path + '/train', label_map, transform=transform)
@@ -123,7 +123,7 @@ class_names = list(label_map.keys())  # ['BAD', 'GOOD']
 
 # 학습 루프
 BATCH_SIZE = 4
-EPOCHS = 10
+EPOCHS = 20
 LR = 0.001
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 print("DEVICE=", DEVICE)

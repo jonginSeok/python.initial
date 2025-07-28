@@ -1,3 +1,8 @@
+import torch
+print(torch.cuda.is_available())  # True여야 함
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"사용 중인 디바이스: {device}")
 
 if __name__ == '__main__':
     from ultralytics import YOLO
@@ -17,12 +22,12 @@ if __name__ == '__main__':
 
     # 2025.07.24 add
     model.train(
-        data='C:/Users/ngins/Downloads/Bottle Detection.v4i.yolov11/data.yaml',
+        data='C:/Users/ngins/Git/python.initial/dataset/bottle.yolov11/data.yaml',
         epochs=10,
         imgsz=640,
         batch=16,     # 메모리 문제로 배치 사이즈 줄임
         project = '',
-        name='yolo11n_add_cup_class',
+        name='yolo11n_bottle_class',
         pretrained=True,
         # patience=10, # 정확도(es_metric)가 10번을 넘기면 그만
         # es_metric='metrics/mAP50-95(B)'   # mAP50' # old version
