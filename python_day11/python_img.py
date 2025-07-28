@@ -7,11 +7,11 @@ angleX = 270  # 회전 비율 (90도 회전)
 ratio = f'rat{angleX}'  # 파일명에 추가할 회전 비율
 
 # 🗂️ 설정: 원본 이미지 폴더 및 저장 위치
-input_folder = 'C:/Users/ngins/Git/python.initial/dataset/bottle.yolov11/train/images/'        # 원본 이미지 폴더 경로
-output_folder = 'C:/Users/ngins/Git/python.initial/dataset/bottle.yolov11/train/images/'+ratio+'/' #'your_output_folder_path'  # 저장할 폴더 경로
+input_folder = 'C:/Users/ngins/Git/python.initial/dataset/bottle.yolov11/train/GOOD/images/'        # 원본 이미지 폴더 경로
+output_folder = 'C:/Users/ngins/Git/python.initial/dataset/bottle.yolov11/train/GOOD/images/'+ratio+'/' #'your_output_folder_path'  # 저장할 폴더 경로
 
-input_labels_folder = 'C:/Users/ngins/Git/python.initial/dataset/bottle.yolov11/train/labels/'
-output_labels_folder = 'C:/Users/ngins/Git/python.initial/dataset/bottle.yolov11/train/labels/'+ratio+'/'
+input_labels_folder = 'C:/Users/ngins/Git/python.initial/dataset/bottle.yolov11/train/GOOD/labels/'
+output_labels_folder = 'C:/Users/ngins/Git/python.initial/dataset/bottle.yolov11/train/GOOD/labels/'+ratio+'/'
 
 # 폴더가 없으면 생성
 os.makedirs(output_folder, exist_ok=True)
