@@ -1,0 +1,55 @@
+# 2025.07.25
+
+실시간 객체 탐지 vs 실시간 행동 탐지
+이미지(사진): 카메라
+카메라로부터 입력되는 영상 스크림으로부터 객체 탐지 알고리즘 개발
+영상 스트림은 여러 프레임으로 구성됨, 프레임=이미지
+
+객체 탐지 알고리즘 개발
+ - 과거의 이미지를 학습하여 사물을 인식할 수 있는 시스템 개발
+ - 
+
+
+Anaconda : AI 개발에 필요한 모듈을 대다수 가지고 있다/ 유료
+
+뱀
+Anaconda > Miniconda> Python
+1. Miniconda 설치
+2. PyTorch 설치(GPU 기반)
+  - Nvidia GPU, CUDA, Driver
+  - nvidia-smi:콘솔 명령으로 GPU정보 확인
+  - 로컬 시스템의 GPU정보를 바탕으로 PyTorch설치 명령어 복사 /실행
+3. 로컬 시스템
+  - conda --version: 현재 설치된 conda 확인 // miniconda 버전확인
+  - 파이썬 가상환경(Virtual Environment):
+  - 가상환경 내에 PyTorch 설치
+  - 가상환경 내에 Jupyter notebook 설치
+  - Jupyter notebook에서 GPU가 인식되는지 확인
+  - CMD에서 GPU가 인식되는지 Python 코드 실행 및 확인
+
+
+
+
+TEAM_B
+
+MBC아카데미
+
+최민규
+010-4106-7726
+mkchoi7726@gmail.com
+
+이건희
+010-6650-2923
+a01066502923@gmail.com
+
+양지현
+010-9486-8464
+pjyolojhy@gmail.com
+
+석종인
+010-9535-9523
+ngins7512@gmail.com
+
+구본욱
+010-3933-6289
+bonwookk02@gmail.com

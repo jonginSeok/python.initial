@@ -1,0 +1,184 @@
+
+################
+vscode 에서 python 파일에서 numpy, matplotlib, SciPy, torch, scikit-learn(sklearn) 설치
+
+-----
+PS C:\Users\ngins7512\Git\python.initial> pip install numpy
+pip: The term 'pip' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+
+PS C:\Users\ngins7512\Git\python.initial> pip install numpy
+pip: 'pip'라는 용어는 cmdlet, 함수, 스크립트 파일 또는 실행 프로그램의 이름으로 인식되지 않습니다.
+이름의 철자를 확인하거나, 경로가 포함된 경우 경로가 올바른지 확인하고 다시 시도하세요.
+-----
+You may have installed Python packages into your global environment, which can cause conflicts between package versions. 
+Would you like to create a virtual environment with these packages to isolate your dependencies?
+
+글로벌 환경에 Python 패키지를 설치했을 수 있으며, 이로 인해 패키지 버전 간 충돌이 발생할 수 있습니다.
+이러한 패키지로 가상 환경을 생성하여 종속성을 분리하시겠습니까?
+
+-----
+-m pip install numpy (x)
+
+pip install numpy
+pip install pandas
+pip install matplotlib
+
+pip install scipy
+
+pip install -U scikit-learn # Numpy, SciPy가 있을 경우 scikit-learn만 설치하는 방법입니다 
+#출처: https://yonsekoon.tistory.com/entry/Python-VS-code-sklearn-설치-방법 [DiraC:티스토리]
+
+pip install scikit-learn
+pip install torch
+pip install torchsummary
+
+313/python.exe c:/Users/ngins7512/OneDrive/Documents/GitHub/jonginSeok/python.Basic/python_day6_20250717_ML02.py
+Traceback (most recent call last):
+  File "c:\Users\ngins7512\OneDrive\Documents\GitHub\jonginSeok\python.Basic\python_day6_20250717_ML02.py", line 2, in <module>
+    import torch
+ModuleNotFoundError: No module named 'torch'
+PS C:\Us-m pip install {package_name}nts\GitHub\jonginSeok\python.Basic>
+-m: The term '-m' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+PS C:\Users\ngins7512\OneDrive\Documents\GitHub\jonginSeok\python.Basic> -m pip install torch
+-m: The term '-m' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+PS C:\Users\ngins7512\OneDrive\Documents\GitHub\jonginSeok\python.Basic> pip install torch   
+pip: The term 'pip' is not recognized as a name of a cmdlet, function, script file, or executable program.
+Check the spelling of the name, or if a path was included, verify that the path is correct and try again.
+PS C:\Users\ngins7512\OneDrive\Documents\GitHub\jonginSeok\python.Basic> c:\Users\ngins7512\OneDrive\Documents\GitHub\jonginSeok\python.Basic\.venv\Scripts\python.exe -m pip install torch
+Collecting torch
+  Downloading torch-2.7.1-cp313-cp313-win_amd64.whl.metadata (28 kB)
+Collecting filelock (from torch)
+  Downloading filelock-3.18.0-py3-none-any.whl.metadata (2.9 kB)
+Collecting typing-extensions>=4.10.0 (from torch)
+  Downloading typing_extensions-4.14.1-py3-none-any.whl.metadata (3.0 kB)
+Collecting sympy>=1.13.3 (from torch)
+  Downloading sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+Collecting networkx (from torch)
+  Downloading networkx-3.5-py3-none-any.whl.metadata (6.3 kB)
+Collecting jinja2 (from torch)
+  Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting fsspec (from torch)
+  Downloading fsspec-2025.7.0-py3-none-any.whl.metadata (12 kB)
+Collecting setuptools (from torch)
+  Downloading setuptools-80.9.0-py3-none-any.whl.metadata (6.6 kB)
+Collecting mpmath<1.4,>=1.1.0 (from sympy>=1.13.3->torch)
+  Downloading mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+Collecting MarkupSafe>=2.0 (from jinja2->torch)
+  Downloading MarkupSafe-3.0.2-cp313-cp313-win_amd64.whl.metadata (4.1 kB)
+Downloading torch-2.7.1-cp313-cp313-win_amd64.whl (216.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 216.1/216.1 MB 34.8 MB/s eta 0:00:00
+Downloading sympy-1.14.0-py3-none-any.whl (6.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.3/6.3 MB 32.1 MB/s eta 0:00:00
+Downloading mpmath-1.3.0-py3-none-any.whl (536 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 536.2/536.2 kB 28.5 MB/s eta 0:00:00
+Downloading typing_extensions-4.14.1-py3-none-any.whl (43 kB)
+Downloading filelock-3.18.0-py3-none-any.whl (16 kB)
+Downloading fsspec-2025.7.0-py3-none-any.whl (199 kB)
+Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+Downloading MarkupSafe-3.0.2-cp313-cp313-win_amd64.whl (15 kB)
+Downloading networkx-3.5-py3-none-any.whl (2.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 MB 34.2 MB/s eta 0:00:00
+Downloading setuptools-80.9.0-py3-none-any.whl (1.2 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 34.6 MB/s eta 0:00:00
+Installing collected packages: mpmath, typing-extensions, sympy, setuptools, networkx, MarkupSafe, fsspec, filelock, jinja2, torch
+Successfully installed MarkupSafe-3.0.2 filelock-3.18.0 fsspec-2025.7.0 jinja2-3.1.6 mpmath-1.3.0 networkx-3.5 setuptools-80.9.0 sympy-1.14.0 torch-2.7.1 typing-extensions-4.14.1
+
+PS C:\Users\ngins7512\Git\python.initial> & C:/Users/ngins7512/Git/python.initial/.venv/Scripts/Activate.ps1
+(.venv) PS C:\Users\ngins7512\Git\python.initial> pip install matplotlib
+Collecting matplotlib
+  Using cached matplotlib-3.10.3-cp313-cp313-win_amd64.whl.metadata (11 kB)
+Collecting contourpy>=1.0.1 (from matplotlib)
+  Using cached contourpy-1.3.2-cp313-cp313-win_amd64.whl.metadata (5.5 kB)
+Collecting cycler>=0.10 (from matplotlib)
+  Using cached cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+Collecting fonttools>=4.22.0 (from matplotlib)
+  Using cached fonttools-4.59.0-cp313-cp313-win_amd64.whl.metadata (110 kB)
+Collecting kiwisolver>=1.3.1 (from matplotlib)
+  Using cached kiwisolver-1.4.8-cp313-cp313-win_amd64.whl.metadata (6.3 kB)
+Requirement already satisfied: numpy>=1.23 in c:\users\ngins7512\git\python.initial\.venv\lib\site-packages (from matplotlib) (2.3.1)
+Collecting packaging>=20.0 (from matplotlib)
+  Using cached packaging-25.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting pillow>=8 (from matplotlib)
+  Using cached pillow-11.3.0-cp313-cp313-win_amd64.whl.metadata (9.2 kB)
+Collecting pyparsing>=2.3.1 (from matplotlib)
+  Using cached pyparsing-3.2.3-py3-none-any.whl.metadata (5.0 kB)
+Collecting python-dateutil>=2.7 (from matplotlib)
+  Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+Collecting six>=1.5 (from python-dateutil>=2.7->matplotlib)
+  Using cached six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+Using cached matplotlib-3.10.3-cp313-cp313-win_amd64.whl (8.1 MB)
+Using cached contourpy-1.3.2-cp313-cp313-win_amd64.whl (223 kB)
+Using cached cycler-0.12.1-py3-none-any.whl (8.3 kB)
+Using cached fonttools-4.59.0-cp313-cp313-win_amd64.whl (2.2 MB)
+Using cached kiwisolver-1.4.8-cp313-cp313-win_amd64.whl (71 kB)
+Using cached packaging-25.0-py3-none-any.whl (66 kB)
+Using cached pillow-11.3.0-cp313-cp313-win_amd64.whl (7.0 MB)
+Using cached pyparsing-3.2.3-py3-none-any.whl (111 kB)
+Using cached python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+Using cached six-1.17.0-py2.py3-none-any.whl (11 kB)
+Installing collected packages: six, pyparsing, pillow, packaging, kiwisolver, fonttools, cycler, contourpy, python-dateutil, matplotlib
+Successfully installed contourpy-1.3.2 cycler-0.12.1 fonttools-4.59.0 kiwisolver-1.4.8 matplotlib-3.10.3 packaging-25.0 pillow-11.3.0 pyparsing-3.2.3 python-dateutil-2.9.0.post0 six-1.17.0
+(.venv) PS C:\Users\ngins7512\Git\python.initial> pip install scipy       
+Collecting scipy
+  Using cached scipy-1.16.0-cp313-cp313-win_amd64.whl.metadata (60 kB)
+Requirement already satisfied: numpy<2.6,>=1.25.2 in c:\users\ngins7512\git\python.initial\.venv\lib\site-packages (from scipy) (2.3.1)
+Using cached scipy-1.16.0-cp313-cp313-win_amd64.whl (38.4 MB)
+Installing collected packages: scipy
+Successfully installed scipy-1.16.0
+(.venv) PS C:\Users\ngins7512\Git\python.initial> pip install -U scikit-learn
+Collecting scikit-learn
+  Using cached scikit_learn-1.7.0-cp313-cp313-win_amd64.whl.metadata (14 kB)
+Requirement already satisfied: numpy>=1.22.0 in c:\users\ngins7512\git\python.initial\.venv\lib\site-packages (from scikit-learn) (2.3.1)
+Requirement already satisfied: scipy>=1.8.0 in c:\users\ngins7512\git\python.initial\.venv\lib\site-packages (from scikit-learn) (1.16.0)
+Collecting joblib>=1.2.0 (from scikit-learn)
+  Using cached joblib-1.5.1-py3-none-any.whl.metadata (5.6 kB)
+Collecting threadpoolctl>=3.1.0 (from scikit-learn)
+  Using cached threadpoolctl-3.6.0-py3-none-any.whl.metadata (13 kB)
+Using cached scikit_learn-1.7.0-cp313-cp313-win_amd64.whl (10.7 MB)
+Using cached joblib-1.5.1-py3-none-any.whl (307 kB)
+Using cached threadpoolctl-3.6.0-py3-none-any.whl (18 kB)
+Installing collected packages: threadpoolctl, joblib, scikit-learn
+Successfully installed joblib-1.5.1 scikit-learn-1.7.0 threadpoolctl-3.6.0                                                                                          
+(.venv) PS C:\Users\ngins7512\Git\python.initial> pip install torch
+Collecting torch
+  Using cached torch-2.7.1-cp313-cp313-win_amd64.whl.metadata (28 kB)
+Collecting filelock (from torch)
+  Using cached filelock-3.18.0-py3-none-any.whl.metadata (2.9 kB)
+Collecting typing-extensions>=4.10.0 (from torch)
+  Using cached typing_extensions-4.14.1-py3-none-any.whl.metadata (3.0 kB)
+Collecting sympy>=1.13.3 (from torch)
+  Using cached sympy-1.14.0-py3-none-any.whl.metadata (12 kB)
+Collecting networkx (from torch)
+  Using cached networkx-3.5-py3-none-any.whl.metadata (6.3 kB)
+Collecting jinja2 (from torch)
+  Using cached jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting fsspec (from torch)
+  Using cached fsspec-2025.7.0-py3-none-any.whl.metadata (12 kB)
+Collecting setuptools (from torch)
+  Using cached setuptools-80.9.0-py3-none-any.whl.metadata (6.6 kB)
+Collecting mpmath<1.4,>=1.1.0 (from sympy>=1.13.3->torch)
+  Using cached mpmath-1.3.0-py3-none-any.whl.metadata (8.6 kB)
+Collecting MarkupSafe>=2.0 (from jinja2->torch)
+  Using cached MarkupSafe-3.0.2-cp313-cp313-win_amd64.whl.metadata (4.1 kB)
+Using cached torch-2.7.1-cp313-cp313-win_amd64.whl (216.1 MB)
+Using cached sympy-1.14.0-py3-none-any.whl (6.3 MB)
+Using cached mpmath-1.3.0-py3-none-any.whl (536 kB)
+Using cached typing_extensions-4.14.1-py3-none-any.whl (43 kB)
+Using cached filelock-3.18.0-py3-none-any.whl (16 kB)
+Using cached fsspec-2025.7.0-py3-none-any.whl (199 kB)
+Using cached jinja2-3.1.6-py3-none-any.whl (134 kB)
+Using cached MarkupSafe-3.0.2-cp313-cp313-win_amd64.whl (15 kB)
+Using cached networkx-3.5-py3-none-any.whl (2.0 MB)
+Using cached setuptools-80.9.0-py3-none-any.whl (1.2 MB)
+Installing collected packages: mpmath, typing-extensions, sympy, setuptools, networkx, MarkupSafe, fsspec, filelock, jinja2, torch
+Successfully installed MarkupSafe-3.0.2 filelock-3.18.0 fsspec-2025.7.0 jinja2-3.1.6 mpmath-1.3.0 networkx-3.5 setuptools-80.9.0 sympy-1.14.0 torch-2.7.1 typing-extensions-4.14.1
+(.venv) PS C:\Users\ngins7512\Git\python.initial> pip install torchsummary
+Collecting torchsummary
+  Using cached torchsummary-1.5.1-py3-none-any.whl.metadata (296 bytes)
+Using cached torchsummary-1.5.1-py3-none-any.whl (2.8 kB)
+Installing collected packages: torchsummary
+Successfully installed torchsummary-1.5.1
+(.venv) PS C:\Users\ngins7512\Git\python.initial> 
