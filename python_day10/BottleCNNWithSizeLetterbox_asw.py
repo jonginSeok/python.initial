@@ -13,7 +13,7 @@ print("DEVICE=", DEVICE)
 
 label_map = {'BAD': 0, 'GOOD': 1}  # class_names = ['BAD', 'GOOD']
 class_names = list(label_map.keys())  # ['BAD', 'GOOD']
-data_path = "C:/Users/ngins/Git/python.initial/dataset/bottle"
+data_path = "C:/Users/ngins/Git/python.initial/dataset/bottle.yolov11"
 
 model = BottleCNNWithSize().to(DEVICE)
 
@@ -47,4 +47,4 @@ def predict_image(image_path):
     plt.show()
 
 # 'C:/Users/ngins/Git/python.initial/dataset/bottle/test/GOOD/001.png'
-predict_image('C:/Users/ngins/Git/python.initial/dataset/bottle/test/BAD/001.png')  # 실제 파일 경로 지정
+predict_image('C:/Users/ngins/Git/python.initial/dataset/bottle.yolov11/test/images/001.png')  # 실제 파일 경로 지정

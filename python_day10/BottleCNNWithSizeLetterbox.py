@@ -109,16 +109,19 @@ transform = transforms.Compose([
     transforms.Normalize([0.5]*3, [0.5]*3)  # 빠르고 안정적인 학습을 위한 정규화(0~1 -> -1~1), (x-0.5)/0.5
 ])
 
-data_path = "C:/Users/ngins/Git/python.initial/dataset/bottle"
+data_path = "C:/Users/ngins/Git/python.initial/dataset/bottle.yolov11"
 BATCH_SIZE = 4
 label_map = {'BAD': 0, 'GOOD': 1}  # class_names = ['BAD', 'GOOD']
+print('===============1=====================')
 train_dataset = BottleDatasetWithSize(data_path + '/train', label_map, transform=transform)
+print('===============2=====================')
 valid_dataset = BottleDatasetWithSize(data_path + '/valid', label_map, transform=transform)
-
+print('===============3=====================')
 # DataLoader 생성
 train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)
+print('===============4=====================')
 valid_loader = DataLoader(valid_dataset, batch_size=BATCH_SIZE, shuffle=False)
-
+print('===============5=====================')
 class_names = list(label_map.keys())  # ['BAD', 'GOOD']
 
 # 학습 루프
