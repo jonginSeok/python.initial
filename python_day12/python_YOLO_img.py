@@ -3,13 +3,42 @@
 from PIL import Image
 import cv2
 import torch
+import torch.nn as nn
+import torch
 from torchvision import transforms
 from ultralytics import YOLO
 
 # 모델 로드
+# yolo_model = YOLO('/content/drive/MyDrive/Python_AI/YOLO/Carrot Classification/carrot-transfer/weights/best.pt')
 yolo_model = YOLO('/content/drive/MyDrive/Python_AI/YOLO/Carrot Classification/carrot-transfer/weights/best.pt')
 
+# 신경망을 정의할 때는 Batch 크기를 고려하지 않지만 Tensor 연산은 배치단위 병렬처리가 기본임
+# 신경망에 데이터를 전달할 때는 Batch 단위로 전달해야 하며 신경망 출력측에서도 배치단위로 출력된다
+# 개발자는 하나의 샘플을 기준으로 신경망 구조만 정의하면 되며,
+# 여러 샘플을 병렬로 처리하는 역할은 프레임워크(Pytorch, TensorFlow)가 자동으로 수행한다.
+class CarrotCNNWithSize(nn.Module):
+    def __init__(self):
+        super().__init__()    # 신경망을 선언할 때는 Batch 크기를 고려하지 않으며 Tensor연산은 배치단위 병렬처리를 지원함
+        self.conv = nn.Sequential(  # 3channel, 16filters, filter-size 3
+            nn.Conv2d(3, 16, 3, padding=1),  # 224x224x3 -> 224x224x16, padding=1은 1픽셀 추가하여 출력크기 유지
+            nn.ReLU(),
+            nn.MaxPool2d(2),        # -> 112x112x16, 이미지 크기를 1/2로 축소(국소적 특징 요약)
+            nn.Conv2d(16, 32, 3, padding=1), # 112x112x16 -> 112x112x32
+            nn.ReLU(),
+            nn.MaxPool2d(2),     # -> 56x56x32
+        )
+        self.flat_size = 56 * 56 * 32
+        self.fc = nn.Sequential(
+            nn.Linear(self.flat_size + 4, 128),  # +4 for size info
+            nn.ReLU(),
+            nn.Linear(128, 2)
+        )
 
+    def forward(self, x, size_feats):    # 순전파(forward) 정의
+        x = self.conv(x)                        # x: (B, 56, 56, 32)
+        x = x.view(x.size(0), -1)  # Flatten    # x: (B, 56*56*32)  1차원 데이터가 Batch 만큼 리턴됨. -1은 자동으로 설정
+        x = torch.cat([x, size_feats], dim=1)   # 각 배치에 이미지 사이즈 정보 추가. 2번째 차원에 추가
+        return self.fc(x)
 
 # CNN 모델 로드
 try:
