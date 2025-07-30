@@ -97,7 +97,7 @@ class Letterbox:
         return new_img
     
 
-# Dataset 에 전달할 transform 생성(수동으로도 호출 가능함)
+# Dataset 에 전달할 transform 생성(수동으로도 호출 가능함) 
 transform = transforms.Compose([
     Letterbox(224),                     # 이미지 비율 유지
     #transforms.Resize((224, 224)),      # 이미지를 고정 크기로 설정
