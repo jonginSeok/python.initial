@@ -15,7 +15,7 @@ duration_sec = 20  # ← 속도 절반으로 느리게
 total_frames = fps * duration_sec
 
 # 이미지 불러오기 및 고정 크기 리사이즈
-image_paths = sorted(glob("C:/Users/ngins/Git/python.initial/dataset/bottle.yolov11/valid/images/*.jpg"))
+image_paths = sorted(glob("dataset/bottle.yolov11/valid/images/*.jpg"))
 resized_imgs = []
 
 for path in image_paths[:10]:
@@ -117,10 +117,10 @@ while cap.isOpened():
     idx += 1
     if idx == total_cnt:
         break
+
 # Release everything when job is finished
 cap.release()
 out.release()
 cv2.destroyAllWindows()
 
 print(f"Processed video saved to {output_video_path}")
-
