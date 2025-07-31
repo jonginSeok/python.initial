@@ -1,5 +1,8 @@
 import pandas as pd
 
+
+
+
 # 2차원 리스트를 사용하여 데이터를 정의하고
 # 컬럼명은 "1분기", "2분기","3분기","4분기" 으로 설정하고
 # 인덱스는 "team1", "team2","team3","team4","team5"
@@ -48,5 +51,3 @@ print(df)
 
 df.iloc[6] = [110, 120,125,110]  # IndexError: iloc cannot enlarge its target object
 print(df)
-
-
