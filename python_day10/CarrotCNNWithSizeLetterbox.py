@@ -44,6 +44,7 @@ from torch.utils.data import DataLoader
 import matplotlib.pyplot as plt
 from PIL import Image
 import numpy as np
+
 # 신경망을 정의할 때는 Batch 크기를 고려하지 않지만 Tensor 연산은 배치단위 병렬처리가 기본임
 # 신경망에 데이터를 전달할 때는 Batch 단위로 전달해야 하며 신경망 출력측에서도 배치단위로 출력된다
 # 개발자는 하나의 샘플을 기준으로 신경망 구조만 정의하면 되며,
@@ -107,11 +108,19 @@ transform = transforms.Compose([
 
 # data_path = "/content/drive/MyDrive/Python_AI/YOLO/Carrot Classification/CARROT원본"
 
-data_path = "C:/Users/ngins/Git/python.initial/dataset/dental/images"
+# data_path = "C:/Users/ngins/Git/python.initial/dataset/dental/images"
+data_path = "/Users/ngins/Git/python.yolo/JonginSeok/ngins7512/dataset"
+
 BATCH_SIZE = 4
-label_map = {'BAD': 0, 'GOOD': 1}  # class_names = ['BAD', 'GOOD']
+# label_map = {'BAD': 0, 'GOOD': 1}  # class_names = ['BAD', 'GOOD']
+label_map = {
+    'bad-broken_large': 0,
+    'bad-broken_small': 1,
+    'bad-contamination': 2,
+    'bottle-good': 3,
+}
 train_dataset = CarrotDatasetWithSize(data_path + '/train', label_map, transform=transform)
-valid_dataset = CarrotDatasetWithSize(data_path + '/val', label_map, transform=transform)
+valid_dataset = CarrotDatasetWithSize(data_path + '/valid', label_map, transform=transform)
 
 # DataLoader 생성
 train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True)

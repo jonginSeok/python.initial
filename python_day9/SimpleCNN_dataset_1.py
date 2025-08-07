@@ -121,7 +121,7 @@ plt.grid(True)
 plt.show()
 
 # 6. 모델 저장
-torch.save(model.state_dict(), "cat_dog_cnn_day_09.pth")
+torch.save(model.state_dict(), "cat_dog_cnn_day_09.pth") # 가중치만 있는 파일
 
 # 7. 모델 로드 (예시)
 model.load_state_dict(torch.load("cat_dog_cnn_day_09.pth", map_location=DEVICE))
@@ -138,7 +138,8 @@ def predict_image(image_path):
     plt.axis('off')
     plt.show()
 
-print("data_path:", data_path)  # 초기 예측 클래스 출력
+# print("data_path:", data_path)  # 초기 예측 클래스 출력
+
 # 9. 예측 실행 예시
 # predict_image(data_path+'/val/cat/cat1.jpg')  # 실제 파일 경로 지정
-predict_image(data_path+'/test/cat1.jpg')  # 실제 파일 경로 지정
+# predict_image(data_path+'/test/cat1.jpg')  # 실제 파일 경로 지정

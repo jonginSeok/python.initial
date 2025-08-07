@@ -1,0 +1,19 @@
+모델의 측정 지표
+ - Confusion matrix(혼동행렬):이진 분류의 경우
+
+ 실제값 | 예측값 | 예측: Positive | 예측: Nagative
+===================================================
+ 실제 : Positive |       TP       |       FN
+---------------------------------------------------
+ 실제 : Nagative |       FP       |       TN
+
+  - TP, FP, TN, FN
+  - TP: True Positive
+  - FP: False Positive
+  - TN: True Nagative
+  - FN: False Nagative
+  - 정확도(Accuracy)
+  - 정밀도(Precision)
+  - 재현율(Recall, Sensitivity, 민감도)
+  - 조화평균(F1-Score)
+  

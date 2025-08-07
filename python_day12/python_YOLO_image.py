@@ -1,12 +1,13 @@
-import torch
-torch.cuda.is_available()
 #### 이미지에서 해당 오브젝트만 오려내서 파일에 저장하기 ####
+
 from PIL import Image
 import os
 import cv2
 import torch
 from torchvision import transforms
 from ultralytics import YOLO
+
+torch.cuda.is_available()
 
 # Classification: 분류, 등급
 
