@@ -12,8 +12,7 @@
   - FP: False Positive
   - TN: True Nagative
   - FN: False Nagative
-  - 정확도(Accuracy)
-  - 정밀도(Precision)
-  - 재현율(Recall, Sensitivity, 민감도)
-  - 조화평균(F1-Score)
-  
+  - 정확도(Accuracy): (TP + TN) / (TP + TN + FP + FN)   # 7/10 암환자 7명 10명을 진단
+  - 정밀도(Precision): TP / {TP + FP}                   # 7/10 0으로 진단하지 않아 같다
+  - 재현율(Recall, Sensitivity, 민감도): TP / (TP + FN) #
+  - 조화평균(F1-Score)  2 - (Precision - Recall) / (Precision + Recall)
