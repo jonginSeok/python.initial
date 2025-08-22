@@ -1,12 +1,12 @@
 
 # 2025.07.17
 ML 
- - 숫자 1개 맞추기 (회귀, Regression)
-   집값을 결정하는 요인-> 집값
-   경제지표를 입력 -> 미래의 주가
-   선형회귀(Linear Regression)
-   비선형회귀(Non-Linear Regression)
-   다변수 선형회귀(Multivariate Linear Regression), 다변량
+- 숫자 1개 맞추기 (회귀, Regression)
+  집값을 결정하는 요인-> 집값
+  경제지표를 입력 -> 미래의 주가
+  선형회귀(Linear Regression)
+  비선형회귀(Non-Linear Regression)
+  다변수 선형회귀(Multivariate Linear Regression), 다변량
 
 - 분류
   - Classification(분류) : 지도학습(Supervised Learning)
@@ -25,7 +25,7 @@ ML
   - 환경(Environment), 상황(Status), 보상(Reward), Agent
 
 Machine Learning
- - 지도학습, 비지도학습, 준지도학습, 강화학습
+  - 지도학습, 비지도학습, 준지도학습, 강화학습
 
 // 문제, 정답 : 지도학습
 // 검증용으로 20% : test_size=0.2

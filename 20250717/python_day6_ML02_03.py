@@ -8,8 +8,8 @@ from sklearn.preprocessing import StandardScaler  # 선형회귀에서는 필수
 df = pd.read_csv("california_housing.csv")
 
 # 특성과 타겟 선택 (다변수 가능)
-X = df[['AveRooms', 'AveOccup', 'HouseAge']].values  # 3개의 특성, X(대문자:다차원)
-y = df['MedHouseVal'].values  # 타겟: 집값
+X = df[["AveRooms", "AveOccup", "HouseAge"]].values  # 3개의 특성, X(대문자:다차원)
+y = df["MedHouseVal"].values  # 타겟: 집값
 
 # 정규화 (중요!), 평균=0, 표준편차=1, 빠른 수렴과 안정적인 학습
 scaler_X = StandardScaler()

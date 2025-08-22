@@ -7,15 +7,18 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
 # 1. 데이터 생성 (2진 분류용)
-X, y = make_classification(n_samples=1000, n_features=2, n_classes=2,
-                            # 실제로 분류에 영향을 주는 의미 있는(feature informative) 특성 수
-                            n_informative=2,
-                            n_redundant=0,   # 쓸모 없는 특성(중복된 정보) 수
-                            random_state=0)
+X, y = make_classification(
+    n_samples=1000,
+    n_features=2,
+    n_classes=2,
+    # 실제로 분류에 영향을 주는 의미 있는(feature informative) 특성 수
+    n_informative=2,
+    n_redundant=0,  # 쓸모 없는 특성(중복된 정보) 수
+    random_state=0,
+)
 
 # 2. train/val 분리 및 정규화
-X_train, X_val, y_train, y_val = train_test_split(
-    X, y, test_size=0.2, random_state=42)
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
 
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
@@ -31,7 +34,7 @@ y_val = torch.tensor(y_val, dtype=torch.float32).unsqueeze(1)
 model = nn.Sequential(
     nn.Linear(2, 16),
     nn.ReLU(),
-    nn.Linear(16, 1)  # 마지막에 sigmoid는 BCEWithLogitsLoss가 내부에서 처리함
+    nn.Linear(16, 1),  # 마지막에 sigmoid는 BCEWithLogitsLoss가 내부에서 처리함
 )
 
 # 5. 손실 함수 + 옵티마이저
@@ -61,11 +64,12 @@ for epoch in range(epochs):
 
     if epoch % 10 == 0:
         print(
-            f"Epoch {epoch}: Train Loss = {loss.item():.4f}, Val Loss = {val_loss.item():.4f}")
+            f"Epoch {epoch}: Train Loss = {loss.item():.4f}, Val Loss = {val_loss.item():.4f}"
+        )
 
 # 7. 시각화
-plt.plot(train_loss_history, label='Train Loss')
-plt.plot(val_loss_history, label='Val Loss')
+plt.plot(train_loss_history, label="Train Loss")
+plt.plot(val_loss_history, label="Val Loss")
 plt.title("Binary Classification Loss (BCE)")
 plt.xlabel("Epoch")
 plt.ylabel("Loss")
@@ -76,6 +80,6 @@ plt.show()
 # 8. 정확도 계산
 with torch.no_grad():
     probs = torch.sigmoid(model(X_val))  # 로짓 → 확률
-    preds = (probs > 0.5).float()        # Tensor -> float
+    preds = (probs > 0.5).float()  # Tensor -> float
     acc = (preds == y_val).float().mean()
     print(f" Validation Accuracy: {acc.item()*100:.2f}%")

@@ -24,27 +24,28 @@ y_np = 3 * x_np**3 + 2 * x_np**2 + 5 + np.random.normal(0, 0, size=x_np.shape)
 # 3. 훈련/검증 데이터 분리 (Overfitting 감지를 위해)
 # x_train_np.shape, x_val_np.shape, y_train_np.shape, y_val_np.shape
 x_train_np, x_val_np, y_train_np, y_val_np = train_test_split(
-    x_np, y_np, test_size=0.2, random_state=0)
-x_train = torch.tensor(
-    x_train_np, dtype=torch.float32).unsqueeze(1)  # GPU, 역전파
+    x_np, y_np, test_size=0.2, random_state=0
+)
+x_train = torch.tensor(x_train_np, dtype=torch.float32).unsqueeze(1)  # GPU, 역전파
 y_train = torch.tensor(y_train_np, dtype=torch.float32).unsqueeze(
-    1)  # nparray 는 64bit여서 형변환
+    1
+)  # nparray 는 64bit여서 형변환
 x_val = torch.tensor(x_val_np, dtype=torch.float32).unsqueeze(1)
 y_val = torch.tensor(y_val_np, dtype=torch.float32).unsqueeze(1)
 
 # 4. 모델 정의
 model = nn.Sequential(
     nn.Linear(1, 64),  # 입력 1개 , 식 : y_np = 3 * x_np**2 + 2, -> 1의 의미
-    nn.ReLU(),         # 위의 레이어에 포함된 각 노드에 연결됨
+    nn.ReLU(),  # 위의 레이어에 포함된 각 노드에 연결됨
     nn.Linear(64, 64),
     nn.ReLU(),
     nn.Linear(64, 64),
-    nn.ReLU(),         # Activation Function, ReLU : 양수만 추출, 비선형 효과
+    nn.ReLU(),  # Activation Function, ReLU : 양수만 추출, 비선형 효과
     nn.Linear(64, 64),
     nn.ReLU(),
     nn.Linear(64, 64),  # 복잡(한)하게 계산
     nn.ReLU(),
-    nn.Linear(64, 1)   # 출력 1개, 1 -> 1의 의미`
+    nn.Linear(64, 1),  # 출력 1개, 1 -> 1의 의미`
 )
 
 # https://www.bing.com/images/search?view=detailV2&ccid=2DWFdeh9&id=D4CD2A8598E69FA5959D1A4DDB0511075B688E19&thid=OIP.2DWFdeh9FLfdxYYr5bFtVgHaDu&mediaurl=https%3A%2F%2Fmiro.medium.com%2Fmax%2F1200%2F1*ZafDv3VUm60Eh10OeJu1vw.png&exph=603&expw=1200&q=Activation+Functions+ReLU&simid=608018141626776315&FORM=IRPRST&ck=76D4DDE3DAEBDE707AE8ED2E373F6048&selectedIndex=1&itb=0&cw=1728&ch=861&ajaxhist=0&ajaxserp=0
@@ -77,7 +78,8 @@ for epoch in range(epochs):
 
     if epoch % 50 == 0:
         print(
-            f"Epoch {epoch}: Train Loss = {loss.item():.4f}, Val Loss = {val_loss.item():.4f}")
+            f"Epoch {epoch}: Train Loss = {loss.item():.4f}, Val Loss = {val_loss.item():.4f}"
+        )
 
 # 7. Loss 시각화 (Overfitting 감지)
 plt.plot(train_losses, label="Train Loss")
@@ -107,7 +109,7 @@ loaded_model = nn.Sequential(
     nn.ReLU(),
     nn.Linear(64, 64),
     nn.ReLU(),
-    nn.Linear(64, 1)
+    nn.Linear(64, 1),
 )
 loaded_model.load_state_dict(torch.load(filePath))
 loaded_model.eval()
@@ -118,9 +120,8 @@ x_test = torch.linspace(-5, 5, 100).unsqueeze(1)  # 2번째 차원 추가
 with torch.no_grad():
     y_test_pred = loaded_model(x_test).squeeze().numpy()
 
-plt.scatter(x_np, y_np, label='Original Data', alpha=0.6)
-plt.plot(x_test.squeeze().numpy(), y_test_pred,
-            color='red', label='Model Prediction')
+plt.scatter(x_np, y_np, label="Original Data", alpha=0.6)
+plt.plot(x_test.squeeze().numpy(), y_test_pred, color="red", label="Model Prediction")
 plt.title("Model Fit to Quadratic Data")
 plt.xlabel("x")
 plt.ylabel("y")

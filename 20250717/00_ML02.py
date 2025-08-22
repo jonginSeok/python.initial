@@ -1,8 +1,8 @@
-'''
+"""
 2025.07.17
 
 노이즈
-'''
+"""
 
 # 1. 라이브러리 임포트
 from sklearn.datasets import make_classification
@@ -26,7 +26,8 @@ y_np = 3 * x_np**2 + 2 + np.random.normal(0, 5, size=x_np.shape)
 
 # 3. 훈련/검증 데이터 분리 (Overfitting 감지를 위해)
 x_train_np, x_val_np, y_train_np, y_val_np = train_test_split(
-    x_np, y_np, test_size=0.2, random_state=42)
+    x_np, y_np, test_size=0.2, random_state=42
+)
 
 x_train = torch.tensor(x_train_np, dtype=torch.float32).unsqueeze(1)
 y_train = torch.tensor(y_train_np, dtype=torch.float32).unsqueeze(1)
@@ -36,7 +37,7 @@ y_val = torch.tensor(y_val_np, dtype=torch.float32).unsqueeze(1)
 # 4. 모델 정의
 model = nn.Sequential(
     nn.Linear(1, 64),
-    nn.ReLU(),          # 위의 레이어에 포함된 각 노드에 연결됨
+    nn.ReLU(),  # 위의 레이어에 포함된 각 노드에 연결됨
     nn.Linear(64, 64),
     nn.ReLU(),
     nn.Linear(64, 64),
@@ -45,7 +46,7 @@ model = nn.Sequential(
     nn.ReLU(),
     nn.Linear(64, 64),
     nn.ReLU(),
-    nn.Linear(64, 1)
+    nn.Linear(64, 1),
 )
 
 # 5. 손실 함수, 옵티마이저
@@ -75,7 +76,8 @@ for epoch in range(epochs):
 
     if epoch % 50 == 0:
         print(
-            f"Epoch {epoch}: Train Loss = {loss.item():.4f}, Val Loss = {val_loss.item():.4f}")
+            f"Epoch {epoch}: Train Loss = {loss.item():.4f}, Val Loss = {val_loss.item():.4f}"
+        )
 
 # 7. Loss 시각화 (Overfitting 감지)
 plt.plot(train_losses, label="Train Loss")
@@ -103,7 +105,7 @@ loaded_model = nn.Sequential(
     nn.ReLU(),
     nn.Linear(64, 64),
     nn.ReLU(),
-    nn.Linear(64, 1)
+    nn.Linear(64, 1),
 )
 loaded_model.load_state_dict(torch.load("quadratic_model.pth"))
 loaded_model.eval()
@@ -114,9 +116,8 @@ x_test = torch.linspace(-5, 5, 100).unsqueeze(1)  # 2번째 차원 추가
 with torch.no_grad():
     y_test_pred = loaded_model(x_test).squeeze().numpy()
 
-plt.scatter(x_np, y_np, label='Original Data', alpha=0.6)
-plt.plot(x_test.squeeze().numpy(), y_test_pred,
-            color='red', label='Model Prediction')
+plt.scatter(x_np, y_np, label="Original Data", alpha=0.6)
+plt.plot(x_test.squeeze().numpy(), y_test_pred, color="red", label="Model Prediction")
 plt.title("Model Fit to Quadratic Data")
 plt.xlabel("x")
 plt.ylabel("y")
@@ -210,8 +211,8 @@ print(df.head())
 df = pd.read_csv("california_housing.csv")
 
 # 특성과 타겟 선택 (다변수 가능)
-X = df[['AveRooms', 'AveOccup', 'HouseAge']].values  # 3개의 특성
-y = df['MedHouseVal'].values  # 타겟: 집값
+X = df[["AveRooms", "AveOccup", "HouseAge"]].values  # 3개의 특성
+y = df["MedHouseVal"].values  # 타겟: 집값
 
 # 정규화 (중요!), 평균=0, 표준편차=1, 빠른 수렴과 안정적인 학습
 scaler_X = StandardScaler()
@@ -262,8 +263,8 @@ plt.show()
 # 예측 수행
 model.eval()
 with torch.no_grad():
-    y_pred = model(X_tensor).numpy()              # 정규화된 예측
-    y_true = y_tensor.numpy()                     # 정규화된 실제값
+    y_pred = model(X_tensor).numpy()  # 정규화된 예측
+    y_true = y_tensor.numpy()  # 정규화된 실제값
 
 # 역정규화 (원래 단위로)
 y_pred_inv = scaler_y.inverse_transform(y_pred)
@@ -272,7 +273,7 @@ y_true_inv = scaler_y.inverse_transform(y_true)
 # 평가 지표 계산
 mse = mean_squared_error(y_true_inv, y_pred_inv)
 mae = mean_absolute_error(y_true_inv, y_pred_inv)
-r2 = r2_score(y_true_inv, y_pred_inv)   # 결정계수(0~1)
+r2 = r2_score(y_true_inv, y_pred_inv)  # 결정계수(0~1)
 
 print("\n 모델 평가 지표:")
 print(f"MSE (평균 제곱 오차):      {mse:.4f}")
@@ -341,15 +342,18 @@ print(f"예측된 집값: {pred_value:.3f} (단위: 10만 달러)")
 
 
 # 1. 데이터 생성 (2진 분류용)
-X, y = make_classification(n_samples=1000, n_features=2, n_classes=2,
-                            # 실제로 분류에 영향을 주는 의미 있는(feature informative) 특성 수
-                            n_informative=2,
-                            n_redundant=0,   # 쓸모 없는 특성(중복된 정보) 수
-                            random_state=0)
+X, y = make_classification(
+    n_samples=1000,
+    n_features=2,
+    n_classes=2,
+    # 실제로 분류에 영향을 주는 의미 있는(feature informative) 특성 수
+    n_informative=2,
+    n_redundant=0,  # 쓸모 없는 특성(중복된 정보) 수
+    random_state=0,
+)
 
 # 2. train/val 분리 및 정규화
-X_train, X_val, y_train, y_val = train_test_split(
-    X, y, test_size=0.2, random_state=42)
+X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2, random_state=42)
 
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
@@ -365,7 +369,7 @@ y_val = torch.tensor(y_val, dtype=torch.float32).unsqueeze(1)
 model = nn.Sequential(
     nn.Linear(2, 16),
     nn.ReLU(),
-    nn.Linear(16, 1)  # 마지막에 sigmoid는 BCEWithLogitsLoss가 내부에서 처리함
+    nn.Linear(16, 1),  # 마지막에 sigmoid는 BCEWithLogitsLoss가 내부에서 처리함
 )
 
 # 5. 손실 함수 + 옵티마이저
@@ -395,11 +399,12 @@ for epoch in range(epochs):
 
     if epoch % 10 == 0:
         print(
-            f"Epoch {epoch}: Train Loss = {loss.item():.4f}, Val Loss = {val_loss.item():.4f}")
+            f"Epoch {epoch}: Train Loss = {loss.item():.4f}, Val Loss = {val_loss.item():.4f}"
+        )
 
 # 7. 시각화
-plt.plot(train_loss_history, label='Train Loss')
-plt.plot(val_loss_history, label='Val Loss')
+plt.plot(train_loss_history, label="Train Loss")
+plt.plot(val_loss_history, label="Val Loss")
 plt.title("Binary Classification Loss (BCE)")
 plt.xlabel("Epoch")
 plt.ylabel("Loss")
@@ -410,6 +415,6 @@ plt.show()
 # 8. 정확도 계산
 with torch.no_grad():
     probs = torch.sigmoid(model(X_val))  # 로짓 → 확률
-    preds = (probs > 0.5).float()        # Tensor -> float
+    preds = (probs > 0.5).float()  # Tensor -> float
     acc = (preds == y_val).float().mean()
     print(f" Validation Accuracy: {acc.item()*100:.2f}%")

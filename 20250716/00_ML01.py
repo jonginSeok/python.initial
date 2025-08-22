@@ -1,6 +1,6 @@
-'''
+"""
 2025.07.16
-'''
+"""
 
 # y = w * x + b
 # 직선의 방정식과 기울기(계수, 가중치, weight), 절편(편견,편향, bias)
@@ -24,11 +24,11 @@ print("y=", y)
 
 # 시각화
 plt.figure(figsize=(5, 3))
-plt.plot(x, y, label=f'y = {w}x + {b}', color='blue')
-plt.title(f'Linear Function: y = {w}x + {b}')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.axis('equal')  # x축과 y축의 비율을 동일하게 설정
+plt.plot(x, y, label=f"y = {w}x + {b}", color="blue")
+plt.title(f"Linear Function: y = {w}x + {b}")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.axis("equal")  # x축과 y축의 비율을 동일하게 설정
 plt.grid(True)
 plt.legend()
 plt.show()
@@ -53,10 +53,10 @@ epochs = 200
 for epoch in range(epochs):
     # 순전파 (Forward)
     y_pred = w * x + b
-    loss = 0.5 * (y_pred - y) ** 2   # MSE 손실
+    loss = 0.5 * (y_pred - y) ** 2  # MSE 손실
 
     # 역전파 (Backward / Gradient:기울기)
-    dL_dy_pred = y_pred - y          # dL/dy_pred
+    dL_dy_pred = y_pred - y  # dL/dy_pred
     # Chain rule: dL/dw = (dy_pred/dw) * (dL/dy_pred)
     dL_dw = dL_dy_pred * x
     # Chain rule: dL/db = (dy_pred/db) * (dL/dy_pred)
@@ -90,11 +90,11 @@ print("y=", y)
 
 # 시각화
 plt.figure(figsize=(5, 3))
-plt.plot(x, y, label=f'y = {w1} * x^2 + {w2} * x + {b}', color='blue')
-plt.title(f'y = {w1} * x^2 + {w2} * x + {b}')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.axis('equal')  # x축과 y축의 비율을 동일하게 설정
+plt.plot(x, y, label=f"y = {w1} * x^2 + {w2} * x + {b}", color="blue")
+plt.title(f"y = {w1} * x^2 + {w2} * x + {b}")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.axis("equal")  # x축과 y축의 비율을 동일하게 설정
 plt.grid(True)
 plt.legend()
 plt.show()
@@ -110,7 +110,7 @@ w1 = 1
 w2 = 1
 b = 1
 
-loss = 0.5 * (y_pred - y) ** 2   # MSE 손실
+loss = 0.5 * (y_pred - y) ** 2  # MSE 손실
 
 y_pred = w1 * x**2 + w2 * x + b
 y_pred  # 7 -> 15
@@ -125,10 +125,10 @@ epochs = 50
 for epoch in range(epochs):
     # 순전파 (Forward)
     y_pred = w1 * x**2 + w2 * x + b
-    loss = 0.5 * (y_pred - y) ** 2   # MSE 손실
+    loss = 0.5 * (y_pred - y) ** 2  # MSE 손실
 
     # 역전파 (Backward / Gradient)
-    dL_dy_pred = y_pred - y          # dL/dy_pred
+    dL_dy_pred = y_pred - y  # dL/dy_pred
     dL_dw1 = dL_dy_pred * x**2
     dL_dw2 = dL_dy_pred * x
     dL_db = dL_dy_pred * 1
@@ -141,7 +141,8 @@ for epoch in range(epochs):
     # 10회마다 출력
     if epoch % 10 == 0 or epoch == epochs - 1:
         print(
-            f"Epoch {epoch:3d}: Loss = {loss:.4f}, w1 = {w1:.4f}, w2 = {w2:.4f}, b = {b:.4f}")
+            f"Epoch {epoch:3d}: Loss = {loss:.4f}, w1 = {w1:.4f}, w2 = {w2:.4f}, b = {b:.4f}"
+        )
 
 
 # 학습 후
@@ -175,7 +176,7 @@ for epoch in range(epochs):
 
     # Backward and optimization
     optimizer.zero_grad()
-    loss.backward()   # 자동 미분
+    loss.backward()  # 자동 미분
     optimizer.step()  # 가중치 갱신
 
     # Print progress
@@ -195,7 +196,7 @@ plt.figure(figsize=(12, 5))
 # 6-1. Plot data and regression line
 plt.subplot(1, 2, 1)
 plt.scatter(x_train.numpy(), y_train.numpy(), label="Actual Data")
-plt.plot(x_train.numpy(), predicted_y, color='red', label="Model Prediction")
+plt.plot(x_train.numpy(), predicted_y, color="red", label="Model Prediction")
 plt.xlabel("Study Hours")
 plt.ylabel("Exam Score")
 plt.title("Linear Regression: Study Time vs Exam Score")
@@ -204,7 +205,7 @@ plt.grid(True)
 
 # 6-2. Plot loss curve
 plt.subplot(1, 2, 2)
-plt.plot(loss_history, color='green')
+plt.plot(loss_history, color="green")
 plt.xlabel("Epoch")
 plt.ylabel("Loss")
 plt.title("Loss Over Training Epochs")
@@ -215,7 +216,7 @@ plt.show()
 
 
 x = np.linspace(-10, 10, 100)
-y = 3*x + 4
+y = 3 * x + 4
 
 x_train = torch.tensor(x.reshape(-1, 1), dtype=torch.float32)
 y_train = torch.tensor(y.reshape(-1, 1), dtype=torch.float32)
@@ -241,7 +242,7 @@ print(f"10 -> {pred[0][0]}")
 
 
 plt.figure(figsize=(5, 3))
-plt.plot(loss_history, color='green')
+plt.plot(loss_history, color="green")
 plt.xlabel("Epoch")
 plt.ylabel("Loss")
 plt.title("Loss Over Training Epochs")
