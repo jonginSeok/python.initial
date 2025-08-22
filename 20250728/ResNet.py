@@ -52,7 +52,7 @@
 #     # 코사인 함수 형태로 점진적으로 감소시키는 스케줄러
 #     # 학습이 진행됨에 따라 Learning rate를 부드럽게 줄여서 최적화 성능을 높이기 위한 전략
 #     # T_max : 총 코사인 주기 (스케줄러가 완료되는 epoch 수)
-    
+
 #     # ⬇️ 시각화를 위한 저장 리스트
 #     train_loss_list = []
 #     val_acc_list = []
@@ -103,13 +103,21 @@
 #     return acc
 
 
-
 #########################################
 # Dataset 클래스(YOLO규격의 데이터)
 #########################################
+import matplotlib.pyplot as plt
+from tqdm import tqdm
+import torch.optim as optim
+from torch.utils.data import DataLoader
+import torch
+import torch.nn as nn
+import timm
+from torchvision import transforms
 import os
 from torch.utils.data import Dataset
 from PIL import Image
+
 
 class YoloStyleClassificationDataset(Dataset):
     def __init__(self, image_dir, label_dir, transform=None):
@@ -117,7 +125,8 @@ class YoloStyleClassificationDataset(Dataset):
         self.label_dir = label_dir
         self.transform = transform
 
-        self.image_files = [f for f in os.listdir(image_dir) if f.endswith(('.jpg', '.png'))]
+        self.image_files = [f for f in os.listdir(
+            image_dir) if f.endswith(('.jpg', '.png'))]
         self.image_files.sort()
 
         # 클래스 ID 수집
@@ -161,7 +170,6 @@ class YoloStyleClassificationDataset(Dataset):
         return image, label
 
 
-
 #########################################
 # 시각화 함수
 def plot_training(loss_list, acc_list):
@@ -186,10 +194,11 @@ def plot_training(loss_list, acc_list):
     plt.tight_layout()
     plt.show()
 
+
 #########################################
 # Transform (EfficientNet 규격 + Letterbox)
 #########################################
-from torchvision import transforms
+
 
 class Letterbox:
     def __init__(self, target_size=(224, 224), fill_color=(114, 114, 114)):
@@ -207,6 +216,7 @@ class Letterbox:
         new_image.paste(image, ((w - nw) // 2, (h - nh) // 2))
         return new_image
 
+
 transform = transforms.Compose([
     Letterbox((224, 224)),
     transforms.RandomHorizontalFlip(p=0.3),
@@ -219,13 +229,13 @@ transform = transforms.Compose([
 #########################################
 # EfficientNet-B0 모델 불러오기 (timm 사용)
 #########################################
-import timm
-import torch.nn as nn
+
 
 def get_efficientnet_model(num_classes):
     model = timm.create_model('efficientnet_b0', pretrained=True)
     in_features = model.classifier.in_features
-    model.classifier = nn.Linear(in_features, num_classes)   # 교체하면 디폴트 requires_grad=True 상태
+    # 교체하면 디폴트 requires_grad=True 상태
+    model.classifier = nn.Linear(in_features, num_classes)
 
     # 전체 freeze
     '''
@@ -273,15 +283,10 @@ def get_efficientnet_model(num_classes):
     return model
 
 
-
 #########################################
 # 학습 및 평가 루프
 #########################################
-import torch
-from torch.utils.data import DataLoader
-import torch.optim as optim
-from tqdm import tqdm
-import matplotlib.pyplot as plt
+
 
 def evaluate_model(model, val_loader, device, verbose=False):
     model.eval()
@@ -300,6 +305,7 @@ def evaluate_model(model, val_loader, device, verbose=False):
         print(f"Validation Accuracy: {acc:.2f}%")
     return acc
 
+
 def plot_training(loss_list, acc_list):
     plt.figure(figsize=(12, 5))
     plt.subplot(1, 2, 1)
@@ -309,6 +315,7 @@ def plot_training(loss_list, acc_list):
     plt.plot(acc_list, label='Val Acc')
     plt.title("Accuracy")
     plt.show()
+
 
 def train_model(model, train_loader, val_loader, device, epochs=10):
     model.to(device)
@@ -334,7 +341,7 @@ def train_model(model, train_loader, val_loader, device, epochs=10):
             loss.backward()
             optimizer.step()
             total_loss += loss.item()
-                    
+
             # if (total_loss / len(train_loader)) > 0.015:
             #     print(f"Epoch {epoch+1} - Loss: {(total_loss / len(train_loader)):.4f} | images: {images}") # tensor
 
@@ -347,7 +354,8 @@ def train_model(model, train_loader, val_loader, device, epochs=10):
         val_acc = evaluate_model(model, val_loader, device, verbose=True)
         val_accuracies.append(val_acc)
 
-        print(f"Epoch {epoch+1} - Loss: {avg_train_loss:.4f} - Val Acc: {val_acc:.2f}%")
+        print(
+            f"Epoch {epoch+1} - Loss: {avg_train_loss:.4f} - Val Acc: {val_acc:.2f}%")
 
         # earlyStopping: 가장 좋은 수치의 모델이 나오면 그 것만 저장하고...
         if val_acc > best_acc:
@@ -390,8 +398,10 @@ if __name__ == "__main__":
     train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=32)
     '''
-    train_loader = DataLoader(train_dataset, batch_size=32, shuffle=True, drop_last=True)  # 마지막 배치는 32가 안될 수 있으므로 배제
-    val_loader = DataLoader(val_dataset, batch_size=32, drop_last=False)  # 검증은 유지 가능
+    train_loader = DataLoader(train_dataset, batch_size=32,
+                                shuffle=True, drop_last=True)  # 마지막 배치는 32가 안될 수 있으므로 배제
+    val_loader = DataLoader(val_dataset, batch_size=32,
+                            drop_last=False)  # 검증은 유지 가능
     model = get_efficientnet_model(num_classes=train_dataset.num_classes)
 
     train_model(model, train_loader, val_loader, device, epochs=100)
