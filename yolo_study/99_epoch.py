@@ -27,8 +27,10 @@ for epoch in range(epochs):
     # 역전파 (Backward / Gradient:기울기)
     dL_dy_pred = y_pred - y          # dL/dy_pred
     print(f"dL_dy_pred {dL_dy_pred:3f}")
-    dL_dw = dL_dy_pred * x           # Chain rule: dL/dw = (dy_pred/dw) * (dL/dy_pred)
-    dL_db = dL_dy_pred * 1           # Chain rule: dL/db = (dy_pred/db) * (dL/dy_pred)
+    # Chain rule: dL/dw = (dy_pred/dw) * (dL/dy_pred)
+    dL_dw = dL_dy_pred * x
+    # Chain rule: dL/db = (dy_pred/db) * (dL/dy_pred)
+    dL_db = dL_dy_pred * 1
     print(f"dL_dw {dL_dw:3f}, dL_db = {dL_db:.4f}")
     # 파라미터 업데이트 (Gradient Descent)
     w -= lr * dL_dw
@@ -36,7 +38,6 @@ for epoch in range(epochs):
     print(f"lr: {lr:3f}, w: {w:3f}, b = {b:.4f}")
 
     # 10회마다 출력
-    #if epoch % 10 == 0 or epoch == epochs - 1:
+    # if epoch % 10 == 0 or epoch == epochs - 1:
     print(f"Epoch {epoch:3d}: Loss = {loss:.4f}, w = {w:.4f}, b = {b:.4f}")
     print('----' * 20)
-

@@ -1,6 +1,10 @@
 # ------------------------------------------------------
 # 클래스 기초
 # ------------------------------------------------------
+import json
+import csv
+
+
 class BankAccount:  # 클래스의 인스턴스 생성이 목표
     def __init__(self, owner, balance=0):
         self.owner = owner
@@ -16,9 +20,10 @@ class BankAccount:  # 클래스의 인스턴스 생성이 목표
         self.balance -= amount
         return self.balance
 
+
 # 인스턴스 생성 및 사용
 account = BankAccount("홍길동", 1000)
-#1. 인스턴스 생성, 2. 인스턴스 초기화, 3. 참조 리턴
+# 1. 인스턴스 생성, 2. 인스턴스 초기화, 3. 참조 리턴
 
 print(account.deposit(500))
 print(account.withdraw(200))
@@ -26,8 +31,6 @@ print(account.withdraw(200))
 account = BankAccount("Scott")
 print(account.deposit(1000))
 print(account.withdraw(500))
-
-
 
 
 # ------------------------------------------------------
@@ -38,6 +41,7 @@ class Parent:
         self.name = name
         print(f"Parent 생성자 호출: name = {self.name}")
 
+
 class Child(Parent):
     def __init__(self, name, age):
         super().__init__(name)  # 부모 생성자 호출
@@ -45,19 +49,15 @@ class Child(Parent):
         self.age = age
         print(f"Child 생성자 호출: age = {self.age}")
 
+
 # 테스트
 child = Child("홍길동", 20)
-
-
-
 
 
 # ------------------------------------------------------
 # CSV, JSON 파일 실전
 # Comma Separated Value, Javascript Standard Object Notation
 # ------------------------------------------------------
-import csv
-import json
 
 # CSV 저장
 data = [["이름", "나이"], ["홍길동", 30], ["김영희", 25]]
@@ -74,8 +74,8 @@ with open(file_path+"people.csv", newline='', encoding='utf-8') as csvfile:
     for row in reader:
         name, age = row                   # unpack
         print(f"{name}\t{age}")           # f-string
-        #print("{}\t{}".format(name,age)) # format()
-        #print("%s\t%s"%(name,age))       # %s
+        # print("{}\t{}".format(name,age)) # format()
+        # print("%s\t%s"%(name,age))       # %s
 
 # JSON 저장
 person = {"name": "홍길동", "age": 30, "email": "hong@example.com"}
@@ -86,9 +86,6 @@ with open("person.json", "w", encoding="utf-8") as f:
 with open("person.json", "r", encoding="utf-8") as f:
     person_data = json.load(f)
     print(person_data)
-
-
-
 
 
 '''
@@ -112,7 +109,9 @@ f : 검색하려는 사원 번호를 입력하여 검색된 사원 정보를 화
 x : 프로그램 메인 루프 종료
 '''
 
-# ------------------------------------------------------ 
+# ------------------------------------------------------
+
+
 class Employee:
     def __init__(self, info):
         eno, ename, dno, phone = info
@@ -122,8 +121,7 @@ class Employee:
         self.phone = phone
 
     def printRow(self):
-        row = "{}\t{}\t{}\t{}".format(self.eno, self.ename,
-                                      self.dno, self.phone)
+        row = "{}\t{}\t{}\t{}".format(self.eno, self.ename, self.dno, self.phone)
         print(row)
 
     def saveRow(self):
@@ -133,17 +131,14 @@ class Employee:
             print('사원정보 추가 성공')
 
 
- 
-# ------------------------------------------------------ 
+# ------------------------------------------------------
 emp = Employee([11, 'Scott', 20, '010-5784-3210'])
 # <__main__.Employee at 0x7cf85b026c50>
-#emp.eno, emp.ename, emp.dno, emp.phone
+# emp.eno, emp.ename, emp.dno, emp.phone
 emp.printRow()
 
 
-
- 
-# ------------------------------------------------------  
+# ------------------------------------------------------
 def inputEmp():
     eno = input('사번:')
     ename = input('이름:')
@@ -152,8 +147,7 @@ def inputEmp():
     return Employee([eno, ename, dno, phone])
 
 
-
-# ------------------------------------------------------  
+# ------------------------------------------------------
 def loadEmps():
     emps = []
     with open(file_path+"employee.csv", newline='', encoding='utf-8') as csvfile:
@@ -163,9 +157,7 @@ def loadEmps():
     return emps
 
 
-
-
-# ------------------------------------------------------  
+# ------------------------------------------------------
 # 파일을 로드하고 메모리에서 특정 사원의 정보를 수정하는 예
 # 12번 사원의 전화번호를 "010-1111-2222"으로 갱신한다
 emps = loadEmps()
@@ -176,7 +168,7 @@ for emp in emps:
         # if overwrite(emps):
         #    print('사원정보 수정 성공')
         break
-    #emp.printRow()
+    # emp.printRow()
 
 
 def showEmps(emps):
@@ -191,7 +183,6 @@ def overwrite(emps):
         for emp in emps:
             writer.writerow([emp.eno, emp.ename, emp.dno, emp.phone])
     return True
-
 
 
 # ------------------------------------------------------
@@ -209,8 +200,8 @@ def updateEmp():
     if not updated:
         print('사원정보 수정 실패')
 
-      
-# ------------------------------------------------------  
+
+# ------------------------------------------------------
 # 리스트의 원소 삭제
 emps = loadEmps()
 for emp in emps:
@@ -221,9 +212,7 @@ for emp in emps:
 del emps[3]
 
 
-
-
-# ------------------------------------------------------  
+# ------------------------------------------------------
 
 def deleteEmp():
     emps = loadEmps()
@@ -239,7 +228,9 @@ def deleteEmp():
     if not deleted:
         print('사원정보 삭제 실패')
 
-# ------------------------------------------------------  
+# ------------------------------------------------------
+
+
 def findEmp():
     emps = loadEmps()
     eno = input('검색할 사번:')
@@ -252,20 +243,21 @@ def findEmp():
     if not found:
         print('사원정보 검색 실패')
 
-# ------------------------------------------------------  
+
+# ------------------------------------------------------
 while True:
     menu = input("추가(a), 목록(s), 수정(u), 삭제(d), 검색(f), 종료(x) :")
-    if menu=='a':
+    if menu == 'a':
         inputEmp().saveRow()
-    elif menu=='s':
+    elif menu == 's':
         showEmps(loadEmps())
-    elif menu=='u':
+    elif menu == 'u':
         updateEmp()
-    elif menu=='d':
+    elif menu == 'd':
         deleteEmp()
-    elif menu=='f':
+    elif menu == 'f':
         findEmp()
-    elif menu=='x':
+    elif menu == 'x':
         print('프로그램 종료...')
         break
     else:

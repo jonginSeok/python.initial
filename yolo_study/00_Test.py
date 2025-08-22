@@ -1,4 +1,3 @@
-
 import torch
 import torch.nn as nn
 import numpy as np
@@ -95,8 +94,6 @@ for epoch in range(epochs):
 pred = model(torch.tensor([[10.0]])).detach().numpy()
 print(f"10 -> {pred[0][0]}")
 
-
-
 plt.figure(figsize=(5, 3))
 plt.plot(loss_history, color='green')
 plt.xlabel("Epoch")
@@ -104,6 +101,7 @@ plt.ylabel("Loss")
 plt.title("Loss Over Training Epochs")
 plt.grid(True)
 plt.show()
+
 
 
 # 정규분포 노이즈 추가 (평균=0, 표준편차=2)

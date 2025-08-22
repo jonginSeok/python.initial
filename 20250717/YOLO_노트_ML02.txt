@@ -1,0 +1,43 @@
+
+# 2025.07.17
+ML 
+ - 숫자 1개 맞추기 (회귀, Regression)
+   집값을 결정하는 요인-> 집값
+   경제지표를 입력 -> 미래의 주가
+   선형회귀(Linear Regression)
+   비선형회귀(Non-Linear Regression)
+   다변수 선형회귀(Multivariate Linear Regression), 다변량
+
+- 분류
+  - Classification(분류) : 지도학습(Supervised Learning)
+  - Clustering(군집) : 비지도학습(UnSupervised Learning)
+  - 불량품/정품 (해야할 프로젝트 : CNN + YOLO)
+  - CNN(Convolutional Neural Network): 이미지 분류 (탁월하다)
+  - YOLO: Object Detection 
+
+- Language Model
+  - RAG(Retrieval Augmented Generation)
+
+- 생성형 AI
+  - 텍스트 생성, 데이터, 사진 생성, 동영상 생성
+
+- 강화학습(Reinforcement Learning)
+  - 환경(Environment), 상황(Status), 보상(Reward), Agent
+
+Machine Learning
+ - 지도학습, 비지도학습, 준지도학습, 강화학습
+
+// 문제, 정답 : 지도학습
+// 검증용으로 20% : test_size=0.2
+// 무작위성 : 0 , 무작위 없음
+x_train_np, x_val_np, y_train_np, y_val_np = train_test_split(x_np, y_np, test_size=0.2, random_state=0)
+
+unsqueeze : 차원을 늘려
+squeeze : 차원을 줄여
+
+.unsqueeze(1) # 2차원 자료 구조, # [1,2,3,4...] -> (N, 1) [[1],[2],[3]...], 1: 위치
+.unsqueeze(2) #?
+
+# https://www.bing.com/images/search?view=detailV2&ccid=2DWFdeh9&id=D4CD2A8598E69FA5959D1A4DDB0511075B688E19&thid=OIP.2DWFdeh9FLfdxYYr5bFtVgHaDu&mediaurl=https%3A%2F%2Fmiro.medium.com%2Fmax%2F1200%2F1*ZafDv3VUm60Eh10OeJu1vw.png&exph=603&expw=1200&q=Activation+Functions+ReLU&simid=608018141626776315&FORM=IRPRST&ck=76D4DDE3DAEBDE707AE8ED2E373F6048&selectedIndex=1&itb=0&cw=1728&ch=861&ajaxhist=0&ajaxserp=0
+nn.ReLU(),         # Activation Function # 양수만 추출
+nn.Sigmoid

@@ -1,0 +1,8 @@
+LabelImg 사용하기
+ - YOLO 규격의 Labelling 지원
+ - 로컬 시스템에 설치/사용
+ - 장점 : 인터넷 연결 없이도 사용 가능
+ - roboflow 대응으로 활용
+ - https://github.com/HumanSignal/labelImg
+ - 화면 우측 하단, Release, Lastest
+ - 압축해제, labelImg.exe 더블클릭
