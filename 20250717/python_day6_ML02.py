@@ -17,13 +17,10 @@ y_np = 3 * x_np**2 + 2 + np.random.normal(0, 5, size=x_np.shape)  # 노이즈가
 
 # 3. 훈련/검증 데이터 분리 (Overfitting 감지를 위해)
 # x_train_np.shape, x_val_np.shape, y_train_np.shape, y_val_np.shape
-x_train_np, x_val_np, y_train_np, y_val_np = train_test_split(
-    x_np, y_np, test_size=0.2, random_state=0
-)
+x_train_np, x_val_np, y_train_np, y_val_np = train_test_split(x_np, y_np, test_size=0.2, random_state=0)
+
 x_train = torch.tensor(x_train_np, dtype=torch.float32).unsqueeze(1)  # GPU, 역전파
-y_train = torch.tensor(y_train_np, dtype=torch.float32).unsqueeze(
-    1
-)  # nparray 는 64bit여서 형변환
+y_train = torch.tensor(y_train_np, dtype=torch.float32).unsqueeze(1)  # nparray 는 64bit여서 형변환
 x_valid = torch.tensor(x_val_np, dtype=torch.float32).unsqueeze(1)
 y_val = torch.tensor(y_val_np, dtype=torch.float32).unsqueeze(1)
 
@@ -71,9 +68,7 @@ for epoch in range(epochs):
         valid_losses.append(valid_loss.item())
 
     if epoch % 50 == 0:
-        print(
-            f"Epoch {epoch}: Train Loss = {loss.item():.4f}, Valid Loss = {valid_loss.item():.4f}"
-        )
+        print(f"Epoch {epoch}: Train Loss = {loss.item():.4f}, Valid Loss = {valid_loss.item():.4f}")
 
 # 7. Loss 시각화 (Overfitting 감지)
 plt.plot(train_losses, label="Train Loss")
@@ -130,8 +125,13 @@ plt.show()
 x_input = torch.tensor([[4.0]])
 with torch.no_grad():
     y_output = loaded_model(x_input)
+
 print(f" Predicted y for x=4.0: {y_output.item():.4f}")
 
-# summary(loaded_model, input_size=(1,))  # 모델 구조 요약 출력
-summary(loaded_model, input_size=(1,))  # 모델 구조 요약 출력
+# GPU 사용 여부 확인
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"✅ CNN 모델 훈련 DEVICE: {DEVICE}")
+#!pip install torchsummary
+
+summary(loaded_model.to(DEVICE), input_size=(1,))  # 모델 구조 요약 출력
 print(" 모델 구조 요약을 출력했습니다.")

@@ -76,7 +76,7 @@ for epoch in range(epochs):
         val_loss = criterion(val_pred, y_val)
         val_losses.append(val_loss.item())
 
-    if epoch % 50 == 0:
+    if epoch % 100 == 0:
         print(
             f"Epoch {epoch}: Train Loss = {loss.item():.4f}, Val Loss = {val_loss.item():.4f}"
         )
@@ -135,5 +135,9 @@ with torch.no_grad():
     y_output = loaded_model(x_input)
 print(f" Predicted y for x=4.0: {y_output.item():.4f}")
 
-summary(loaded_model, input_size=(1,))  # 모델 구조 요약 출력
+# GPU 사용 여부 확인
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"✅ CNN 모델 훈련 DEVICE: {DEVICE}")
+                
+summary(loaded_model.to(DEVICE), input_size=(1,))  # 모델 구조 요약 출력
 print(" 모델 구조 요약을 출력했습니다.")

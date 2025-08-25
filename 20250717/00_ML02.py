@@ -1,24 +1,25 @@
+# 1. 라이브러리 임포트
+import numpy as np
+import pandas as pd
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import matplotlib.pyplot as plt
+import joblib  # joblib은 sklearn 모델/객체 저장에 최적화
+
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+from sklearn.preprocessing import StandardScaler
+from sklearn.datasets import fetch_california_housing
+from torchsummary import summary
+
+
 """
 2025.07.17
 
 노이즈
 """
-
-# 1. 라이브러리 임포트
-from sklearn.datasets import make_classification
-import joblib  # joblib은 sklearn 모델/객체 저장에 최적화
-from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-from sklearn.preprocessing import StandardScaler
-import pandas as pd
-from sklearn.datasets import fetch_california_housing
-from torchsummary import summary
-import torch
-import torch.nn as nn
-import torch.optim as optim
-import matplotlib.pyplot as plt
-import numpy as np
-from sklearn.model_selection import train_test_split
-
 # 2. 데이터 생성
 np.random.seed(42)
 x_np = np.linspace(-5, 5, 200)
@@ -74,10 +75,8 @@ for epoch in range(epochs):
         val_loss = criterion(val_pred, y_val)
         val_losses.append(val_loss.item())
 
-    if epoch % 50 == 0:
-        print(
-            f"Epoch {epoch}: Train Loss = {loss.item():.4f}, Val Loss = {val_loss.item():.4f}"
-        )
+    if epoch % 100 == 0:
+        print(f"Epoch {epoch}: Train Loss = {loss.item():.4f}, Val Loss = {val_loss.item():.4f}")
 
 # 7. Loss 시각화 (Overfitting 감지)
 plt.plot(train_losses, label="Train Loss")
@@ -129,12 +128,15 @@ plt.show()
 x_input = torch.tensor([[4.0]])
 with torch.no_grad():
     y_output = loaded_model(x_input)
+
 print(f" Predicted y for x=4.0: {y_output.item():.4f}")
 
 
+# GPU 사용 여부 확인
+DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print(f"✅ CNN 모델 훈련 DEVICE: {DEVICE}")
 #!pip install torchsummary
-
-summary(model, input_size=(1,))
+summary(model.to(DEVICE), input_size=(1,))
 
 
 # Multivariate Linear Regression

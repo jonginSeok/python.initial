@@ -63,9 +63,7 @@ for epoch in range(epochs):
         val_loss_history.append(val_loss.item())
 
     if epoch % 10 == 0:
-        print(
-            f"Epoch {epoch}: Train Loss = {loss.item():.4f}, Val Loss = {val_loss.item():.4f}"
-        )
+        print(f"Epoch {epoch}: Train Loss = {loss.item():.4f}, Val Loss = {val_loss.item():.4f}")
 
 # 7. 시각화
 plt.plot(train_loss_history, label="Train Loss")
@@ -82,4 +80,5 @@ with torch.no_grad():
     probs = torch.sigmoid(model(X_val))  # 로짓 → 확률
     preds = (probs > 0.5).float()  # Tensor -> float
     acc = (preds == y_val).float().mean()
-    print(f" Validation Accuracy: {acc.item()*100:.2f}%")
+
+print(f" Validation Accuracy: {acc.item()*100:.2f}%")

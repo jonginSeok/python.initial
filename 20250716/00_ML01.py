@@ -1,13 +1,13 @@
-"""
-2025.07.16
-"""
-
-# y = w * x + b
-# 직선의 방정식과 기울기(계수, 가중치, weight), 절편(편견,편향, bias)
 import torch.nn as nn
 import torch
 import numpy as np
 import matplotlib.pyplot as plt
+
+# y = w * x + b
+# 직선의 방정식과 기울기(계수, 가중치, weight), 절편(편견,편향, bias)
+"""
+2025.07.16
+"""
 
 # 파라미터 설정
 w = 0.0000001
@@ -48,7 +48,7 @@ y = 15
 lr = 0.01
 
 # 에포크 수
-epochs = 200
+epochs = 100
 
 for epoch in range(epochs):
     # 순전파 (Forward)
