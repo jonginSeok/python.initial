@@ -1,0 +1,40 @@
+설치 및 실행
+1. labelImg github(https://github.com/HumanSignal/labelImg) 에서 github file을 download
+    git clone or .zip download
+
+    $ git clone https://github.com/heartexlabs/labelImg.git
+
+    download한 labelImg directory로 이동
+    $ cd [download path]/labelImg
+
+2. 필요한 library 설치
+    사용 환경에 따라 알맞은 설치 방법을 따라가면 됨
+    Windows 10 + python venv module 기준으로 작성
+    (mac upload 예정)
+    Windows에서 작업할 때, cmd/power shell 관리자 모드로 실행
+
+    (1) pip install pyqt5
+    (2) pip install lxml
+    (3) pyrcc5 -o libs/resources.py resources.qrc
+
+3. labelImg 실행
+    (1) labelImg directory를 찾아 감
+    (2) directory 내의 labelImg.py 실행
+
+    $ python labelImg.py [image directory path] [label file]
+
+    python labelImg.py C:\Users\ngins\OneDrive\Attachment\images C:\Users\ngins\OneDrive\Attachment\images\classes.txt C:\Users\ngins\OneDrive\Attachment\labels
+
+    labelImg GUI가 뜨면 성공
+
+
+https://github.com/HumanSignal/labelImg.git
+
+[출처]  https://velog.io/@maseully_hoit/%EC%9D%B4%EB%AF%B8%EC%A7%80-%EB%9D%BC%EB%B2%A8%EB%A7%81%EC%9D%84-%EC%9C%84%ED%95%9C-labelImg-%EC%82%AC%EC%9A%A9%EB%B2%95-with-YOLO    
+
+
+File "C:\Users\ngins\Git\python.initial\labelimg\labelImg.py", line 1709, in get_main_app
+
+win=MainWindow( args.image_dir,
+                args.class_file,
+                args.save_dir)
