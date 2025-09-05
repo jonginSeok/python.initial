@@ -1,0 +1,8 @@
+path: /Users/ngins/Git/python.initial/20250904/CarNumber.v2i.yolov8-obb
+train: train/images
+val: valid/images
+test: test/images
+
+names:
+  0: license_plate
+  1: text

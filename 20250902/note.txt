@@ -1,0 +1,13 @@
+aihub에서 가져온 8만개 데이터
+공유 드라이버에 올려져 있음
+이 데이터로 YOLOv8-Seg 전이학습 및 실제 탐지 확인
+
+1.  500개 정도의 이미지 전이학습
+    지도학습:문제(이미지), 정답(Bounding box, Segmentation)
+    Roboflow에서 프로젝트 생성:Instance Segmentation으로 설정
+    Dataset Download : YOLOv8
+
+        (Image, Text 파일)
+
+            datasets/images, labels
+            datasets/train, valid, test
