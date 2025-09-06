@@ -175,16 +175,6 @@ def draw_boxes_on_image(
 
 
 
-
-
-
-
-
-
-
-
-
-
 """
 디렉터리 일괄 처리 옵션
 여러 장을 한 번에 처리하고 싶다면 아래 헬퍼를 추가해 사용하세요.
@@ -215,9 +205,9 @@ if __name__ == "__main__":
                 print(f"[ERR] {n} → {e}")
 
 # 사용 예시
-images_path = r"C:/Users/ngins/Git/python.initial/20250904/CarNumber.v4i.yolov8-obb/train/images"
-labels_path = r"C:/Users/ngins/Git/python.initial/20250904/CarNumber.v4i.yolov8-obb/train/labels"
-overlay_path = r"C:/Users/ngins/Git/python.initial/20250904/overlay"
+images_path = r"20250904/CarNumber.v4i.yolov8-obb/train/images"
+labels_path = r"20250904/CarNumber.v4i.yolov8-obb/train/labels"
+overlay_path = r"20250904/runs/mask_draw"
 draw_folder(images_path, labels_path, overlay_path, ["license_plate","text"])
 
 """

@@ -11,8 +11,8 @@
   - 2행 텍스트 : origin_name_d1.jpg(첫번째), origin_name_d2.jpg(두번째) ex)서울32가1234_d1.jpg(서울32) 서울32가1234_d2.jpg(가1234)
 
 5. 이미지에 대한 라벨 생성 (image_path, label)
-  - labels.cvs : c:/test/text_images/서울32가1234_d1.jpg                ex)서울32
-    c:/test/text_images/서울32가1234_d2.jpg                             ex)가1234
+  - labels.cvs: c:/test/text_images/서울32가1234_d1.jpg                 ex)서울32
+    						c:/test/text_images/서울32가1234_d2.jpg                 ex)가1234
 
 6. 이미지와 라멜을 이용하여 CTC 모델 학습 / mAP 확인
 7. 학습된 CTC 모델을 사용하여 자동차 번호판 텍스트 인식 실행

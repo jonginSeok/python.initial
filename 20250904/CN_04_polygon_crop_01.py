@@ -1,0 +1,107 @@
+import os
+import cv2
+import numpy as np
+
+# 경로 설정
+images_dir = "20250904/CarNumber.v4i.yolov8-obb/train/images"
+labels_dir = "20250904/CarNumber.v4i.yolov8-obb/train/labels"
+output_dir = "20250904/runs/cropped_images"
+os.makedirs(output_dir, exist_ok=True)
+
+# 클래스 ID (필요시 수정)
+LICENSE_PLATE_CLS = 0
+TEXT_CLS = 1
+IMAGE_EXT = ".jpg"
+
+def yolo_to_pixel_coords(coords, img_w, img_h):
+    pts = []
+    for i in range(0, len(coords), 2):
+        x = float(coords[i]) * img_w
+        y = float(coords[i+1]) * img_h
+        pts.append([int(x), int(y)])
+    return np.array(pts, dtype=np.int32)
+
+def clamp_bbox(x, y, w, h, img_w, img_h):
+    x = max(0, min(x, img_w - 1))
+    y = max(0, min(y, img_h - 1))
+    w = max(0, min(w, img_w - x))
+    h = max(0, min(h, img_h - y))
+    return x, y, w, h
+
+for label_file in os.listdir(labels_dir):
+    if not label_file.endswith(".txt"):
+        continue
+
+    # 원래 base_name
+    base_name = os.path.splitext(label_file)[0]
+
+    # _jpg.rf 이후 부분 제거
+    if "_jpg.rf" in base_name:
+        base_name = base_name.split("_jpg.rf")[0]
+
+    image_path = os.path.join(images_dir, os.path.splitext(label_file)[0] + IMAGE_EXT)
+    label_path = os.path.join(labels_dir, label_file)
+
+    if not os.path.exists(image_path):
+        print(f"이미지 없음: {image_path}")
+        continue
+
+    img = cv2.imread(image_path)
+    img_h, img_w = img.shape[:2]
+
+    with open(label_path, "r", encoding="utf-8") as f:
+        lines = [ln.strip() for ln in f if ln.strip()]
+
+    plate_mask = np.zeros(img.shape[:2], dtype=np.uint8)
+    text_items = []  # (y_center, mask, polygon)
+
+    for line in lines:
+        parts = line.split()
+        cls = int(parts[0])
+        coords = parts[1:]
+        polygon = yolo_to_pixel_coords(coords, img_w, img_h)
+        if len(polygon) < 3:
+            continue
+
+        mask = np.zeros(img.shape[:2], dtype=np.uint8)
+        cv2.fillPoly(mask, [polygon], 255)
+
+        if cls == LICENSE_PLATE_CLS:
+            plate_mask = cv2.bitwise_or(plate_mask, mask)
+
+        elif cls == TEXT_CLS:
+            x, y, w, h = cv2.boundingRect(polygon)
+            x, y, w, h = clamp_bbox(x, y, w, h, img_w, img_h)
+            if w > 0 and h > 0:
+                y_center = y + h / 2
+                text_items.append((y_center, mask, polygon))
+
+    # 번호판 전체 저장
+    if np.any(plate_mask):
+        plate_img = cv2.bitwise_and(img, img, mask=plate_mask)
+        cv2.imwrite(os.path.join(output_dir, f"{base_name}_plate{IMAGE_EXT}"), plate_img)
+
+    # 텍스트 개수에 따른 저장
+    if len(text_items) == 1:
+        # _s1 저장
+        _, m, p = text_items[0]
+        masked = cv2.bitwise_and(img, img, mask=m)
+        x, y, w, h = cv2.boundingRect(p)
+        x, y, w, h = clamp_bbox(x, y, w, h, img_w, img_h)
+        crop = masked[y:y+h, x:x+w]
+        if crop.size > 0:
+            cv2.imwrite(os.path.join(output_dir, f"{base_name}_s1{IMAGE_EXT}"), crop)
+
+    elif len(text_items) == 2:
+        # _d1, _d2 저장
+        text_items.sort(key=lambda t: t[0])  # y_center 기준 정렬
+        for idx, tag in zip([0, 1], ["d1", "d2"]):
+            _, m, p = text_items[idx]
+            masked = cv2.bitwise_and(img, img, mask=m)
+            x, y, w, h = cv2.boundingRect(p)
+            x, y, w, h = clamp_bbox(x, y, w, h, img_w, img_h)
+            crop = masked[y:y+h, x:x+w]
+            if crop.size > 0:
+                cv2.imwrite(os.path.join(output_dir, f"{base_name}_{tag}{IMAGE_EXT}"), crop)
+
+print("✅ 처리 완료")

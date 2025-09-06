@@ -53,7 +53,7 @@ def process_labels_folder(labels_folder, output_csv):
     print(f"처리 완료! 결과가 '{output_csv}'에 저장되었습니다.")
 
 # 사용 예시
-gubun_val = "test"
-labels_dir = "CarNumber.v2i.yolov8-obb/"+gubun_val+"/labels"  # YOLO 라벨 폴더 경로
-output_file = "runs/plate_rows_result/plate_rows_result_"+gubun_val+".csv"
+gubun_val = "test" # train valid test
+labels_dir = "20250904/CarNumber.v2i.yolov8-obb/"+gubun_val+"/labels"  # YOLO 라벨 폴더 경로
+output_file = "20250904/runs/plate_rows_result/plate_rows_result_"+gubun_val+".csv"
 process_labels_folder(labels_dir, output_file)
