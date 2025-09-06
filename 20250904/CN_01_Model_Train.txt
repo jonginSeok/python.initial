@@ -1,0 +1,74 @@
+(pytorch_env) C:\Users\ngins\Git\python.initial>C:/ProgramData/anaconda3/envs/pytorch_env/python.exe c:/Users/ngins/Git/python.initial/20250904/CN_01_Model_Train.py
+New https://pypi.org/project/ultralytics/8.3.195 available  Update with 'pip install -U ultralytics'
+Ultralytics 8.3.173  Python-3.13.5 torch-2.8.0+cu129 CUDA:0 (NVIDIA GeForce RTX 2070 Super with Max-Q Design, 8192MiB)
+engine\trainer: agnostic_nms=False, amp=True, augment=False, auto_augment=randaugment, batch=16, bgr=0.0, box=7.5, cache=False, cfg=None, classes=None, close_mosaic=10, cls=0.5, conf=None, copy_paste=0.0, copy_paste_mode=flip, cos_lr=False, cutmix=0.0, data=20250904/custom_seg.yaml, degrees=0.0, deterministic=True, device=0, dfl=1.5, dnn=False, dropout=0.0, dynamic=False, embed=None, epochs=100, erasing=0.4, exist_ok=False, fliplr=0.5, flipud=0.0, format=torchscript, fraction=1.0, freeze=None, half=False, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, imgsz=640, int8=False, iou=0.7, keras=False, kobj=1.0, line_width=None, lr0=0.01, lrf=0.01, mask_ratio=4, max_det=300, mixup=0.0, mode=train, model=yolov8s-seg.pt, momentum=0.937, mosaic=1.0, multi_scale=False, name=seg_transfer8, nbs=64, nms=False, opset=None, optimize=False, optimizer=auto, overlap_mask=True, patience=100, perspective=0.0, plots=True, pose=12.0, pretrained=True, profile=False, project=None, rect=False, resume=False, retina_masks=False, save=True, save_conf=False, save_crop=False, save_dir=runs\segment\seg_transfer8, save_frames=False, save_json=False, save_period=-1, save_txt=False, scale=0.5, seed=0, shear=0.0, show=False, show_boxes=True, show_conf=True, show_labels=True, simplify=True, single_cls=False, source=None, split=val, stream_buffer=False, task=segment, time=None, tracker=botsort.yaml, translate=0.1, val=True, verbose=True, vid_stride=1, visualize=False, warmup_bias_lr=0.1, warmup_epochs=3.0, warmup_momentum=0.8, weight_decay=0.0005, workers=8, workspace=None
+Overriding model.yaml nc=80 with nc=2
+
+                   from  n    params  module                                       arguments
+  0                  -1  1       928  ultralytics.nn.modules.conv.Conv             [3, 32, 3, 2]
+  1                  -1  1     18560  ultralytics.nn.modules.conv.Conv             [32, 64, 3, 2]
+  2                  -1  1     29056  ultralytics.nn.modules.block.C2f             [64, 64, 1, True]
+  3                  -1  1     73984  ultralytics.nn.modules.conv.Conv             [64, 128, 3, 2]
+  4                  -1  2    197632  ultralytics.nn.modules.block.C2f             [128, 128, 2, True]
+  5                  -1  1    295424  ultralytics.nn.modules.conv.Conv             [128, 256, 3, 2]
+  6                  -1  2    788480  ultralytics.nn.modules.block.C2f             [256, 256, 2, True]
+  7                  -1  1   1180672  ultralytics.nn.modules.conv.Conv             [256, 512, 3, 2]
+  8                  -1  1   1838080  ultralytics.nn.modules.block.C2f             [512, 512, 1, True]
+  9                  -1  1    656896  ultralytics.nn.modules.block.SPPF            [512, 512, 5]
+ 10                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']
+ 11             [-1, 6]  1         0  ultralytics.nn.modules.conv.Concat           [1]
+ 12                  -1  1    591360  ultralytics.nn.modules.block.C2f             [768, 256, 1]
+ 13                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']
+ 14             [-1, 4]  1         0  ultralytics.nn.modules.conv.Concat           [1]
+ 15                  -1  1    148224  ultralytics.nn.modules.block.C2f             [384, 128, 1]
+ 16                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]
+ 17            [-1, 12]  1         0  ultralytics.nn.modules.conv.Concat           [1]
+ 18                  -1  1    493056  ultralytics.nn.modules.block.C2f             [384, 256, 1]
+ 19                  -1  1    590336  ultralytics.nn.modules.conv.Conv             [256, 256, 3, 2]
+ 20             [-1, 9]  1         0  ultralytics.nn.modules.conv.Concat           [1]
+ 21                  -1  1   1969152  ultralytics.nn.modules.block.C2f             [768, 512, 1]
+ 22        [15, 18, 21]  1   2771318  ultralytics.nn.modules.head.Segment          [2, 32, 128, [128, 256, 512]] 
+YOLOv8s-seg summary: 151 layers, 11,790,870 parameters, 11,790,854 gradients, 42.7 GFLOPs
+
+Transferred 411/417 items from pretrained weights
+Freezing layer 'model.22.dfl.conv.weight'
+AMP: running Automatic Mixed Precision (AMP) checks...
+AMP: checks passed 
+train: Fast image access  (ping: 0.00.0 ms, read: 53.818.3 MB/s, size: 4.9 KB)
+train: Scanning C:\Users\ngins\Git\python.initial\20250904\CarNumber.v2i.yolov8-obb\train\labels.cache... 372 images, 0 backgrounds, 0 corrupt: 100%|██████████| 372/372 [00:00<? 
+val: Fast image access  (ping: 0.10.0 ms, read: 0.50.3 MB/s, size: 5.2 KB)
+val: Scanning C:\Users\ngins\Git\python.initial\20250904\CarNumber.v2i.yolov8-obb\valid\labels... 86 images, 0 backgrounds, 0 corrupt: 100%|██████████| 86/86 [00:00<00:00, 245.2
+val: New cache created: C:\Users\ngins\Git\python.initial\20250904\CarNumber.v2i.yolov8-obb\valid\labels.cache
+Plotting labels to runs\segment\seg_transfer8\labels.jpg... 
+optimizer: 'optimizer=auto' found, ignoring 'lr0=0.01' and 'momentum=0.937' and determining best 'optimizer', 'lr0' and 'momentum' automatically... 
+optimizer: AdamW(lr=0.001667, momentum=0.9) with parameter groups 66 weight(decay=0.0), 77 weight(decay=0.0005), 76 bias(decay=0.0)
+Image sizes 640 train, 640 val
+Using 8 dataloader workers
+Logging results to runs\segment\seg_transfer8
+Starting training for 100 epochs...
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss  Instances       Size
+      1/100      4.42G      1.547      4.523      2.288       1.63         27        640: 100%|██████████| 24/24 [00:09<00:00,  2.41it/s]
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100%|██████████| 3/3 [00:01<00:00,  2.43it/
+                   all         86        176      0.608      0.854      0.788       0.43      0.428      0.581      0.472      0.293
+
+      ...
+
+      Epoch    GPU_mem   box_loss   seg_loss   cls_loss   dfl_loss  Instances       Size
+          100/100      4.46G     0.2921     0.5409        0.2     0.8385          8        640: 100%|██████████| 24/24 [00:08<00:00,  2.91it/s]
+                      Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100%|██████████| 3/3 [00:01<00:00,  2.85it/
+                        all         86        176      0.999          1      0.995      0.903      0.988      0.988      0.987       0.74
+
+100 epochs completed in 0.278 hours.
+Optimizer stripped from runs\segment\seg_transfer8\weights\last.pt, 23.9MB
+Optimizer stripped from runs\segment\seg_transfer8\weights\best.pt, 23.9MB
+
+Validating runs\segment\seg_transfer8\weights\best.pt...
+Ultralytics 8.3.173  Python-3.13.5 torch-2.8.0+cu129 CUDA:0 (NVIDIA GeForce RTX 2070 Super with Max-Q Design, 8192MiB)
+YOLOv8s-seg summary (fused): 85 layers, 11,780,374 parameters, 0 gradients, 42.4 GFLOPs
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95)     Mask(P          R      mAP50  mAP50-95): 100%|██████████| 3/3 [00:01<00:00,  1.81it/
+                   all         86        176      0.999          1      0.995      0.904      0.993      0.994      0.994      0.741
+         license_plate         86         86      0.999          1      0.995      0.895      0.987      0.988      0.992      0.562
+                  text         86         90      0.999          1      0.995      0.913      0.999          1      0.995       0.92
+Speed: 0.7ms preprocess, 3.0ms inference, 0.0ms loss, 5.2ms postprocess per image
+Results saved to runs\segment\seg_transfer8

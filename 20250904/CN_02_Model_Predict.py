@@ -1,10 +1,10 @@
 from ultralytics import YOLO
 
 # 모델 로드 (학습된 segmentation 모델 경로)
-model = YOLO("runs/segment/seg_transfer3/weights/best.pt")
+model = YOLO("20250904/runs/segment/seg_transfer8/weights/best.pt")
 
 # 추론할 이미지 경로
-source = "CarNumber.v2i.yolov8-obb/test/images/"  # 폴더 또는 단일 이미지 가능
+source = "20250904/CarNumber.v2i.yolov8-obb/test/images/"  # 폴더 또는 단일 이미지 가능
 
 # 추론 실행
 results = model.predict(source=source, save=True, imgsz=640)

@@ -18,3 +18,4 @@
 7. 학습된 CTC 모델을 사용하여 자동차 번호판 텍스트 인식 실행
 
 roboflow에서 annotation 작업
+  

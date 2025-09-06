@@ -114,7 +114,7 @@ class Collator:
 # 5. 실행 예시
 # =========================
 if __name__ == "__main__":
-    csv_path = r"C:\Users\ngins\Git\python.initial\20250904\runs\cropped_images_labels_output.csv"
+    csv_path = r"C:\Users\ngins\Git\python.initial\20250904\runs\cropped_images_labels.csv"
 
     rows = load_csv_rows(csv_path)
     if not rows:

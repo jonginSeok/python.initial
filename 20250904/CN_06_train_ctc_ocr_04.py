@@ -139,7 +139,7 @@ def decode(preds):
     return pred_texts
 
 def levenshtein(a: str, b: str) -> int:
-    """문자열 a와 b의 레벤슈타인 거리(편집 거리)를 계산"""
+    # """문자열 a와 b의 레벤슈타인 거리(편집 거리)를 계산"""
     if len(a) < len(b):
         a, b = b, a
     prev_row = list(range(len(b) + 1))
@@ -175,10 +175,10 @@ print(f"OCR Accuracy: {acc*100:.2f}% | CER: {cer:.4f}")
     # IoU 계산 후 AP → mAP
     # pass
 def compute_map(gt_boxes, pred_boxes, iou_thresh=0.8):
-    """
-    preds: list of [x1,y1,x2,y2,class_id,conf]
-    gts:   list of [x1,y1,x2,y2,class_id]
-    """
+    # """
+    # preds: list of [x1,y1,x2,y2,class_id,conf]
+    # gts:   list of [x1,y1,x2,y2,class_id]
+    # """
     classes = sorted(set([g[4] for g in gts]))
     ap_per_class = []
 
