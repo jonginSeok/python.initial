@@ -3,12 +3,12 @@ from ultralytics import YOLO
 if __name__ == '__main__':
     model = YOLO('yolov8s-seg.pt')  # 사전 학습된 세그멘테이션 모델
     model.train(
-        data='custom_seg.yaml',
+        data='20250904/custom_seg.yaml',
         epochs=100,
         imgsz=640,
         batch=16,
         name='seg_transfer',
-        device='cuda'  # GPU 사용
+        device='cpu'  # GPU 사용
     )
 
 """

@@ -1,4 +1,4 @@
-path: /Users/ngins/Git/python.initial/20250904/CarNumber.v2i.yolov8-obb
+path: 20250904/CarNumber.v2i.yolov8-obb
 train: train/images
 val: valid/images
 test: test/images
