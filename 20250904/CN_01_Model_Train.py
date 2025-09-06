@@ -11,12 +11,22 @@ if __name__ == '__main__':
         device='cpu'  # GPU 사용
     )
 
+
+
+
+
+
+
+
+
+
+
 """
 5️⃣ 학습 결과 확인
 학습이 완료되면 runs/segment/seg_transfer/weights/best.pt에 최적 모델이 저장됩니다.
 """
-# results = model.val()
-# print(results)
+results = model.val()
+print(results)
 
 """
 [결과]
