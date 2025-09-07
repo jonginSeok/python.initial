@@ -1,3 +1,5 @@
+import itertools
+import re
 import os
 import cv2
 import numpy as np
@@ -13,6 +15,7 @@ LICENSE_PLATE_CLS = 0
 TEXT_CLS = 1
 IMAGE_EXT = ".jpg"
 
+
 def yolo_to_pixel_coords(coords, img_w, img_h):
     pts = []
     for i in range(0, len(coords), 2):
@@ -21,12 +24,14 @@ def yolo_to_pixel_coords(coords, img_w, img_h):
         pts.append([int(x), int(y)])
     return np.array(pts, dtype=np.int32)
 
+
 def clamp_bbox(x, y, w, h, img_w, img_h):
     x = max(0, min(x, img_w - 1))
     y = max(0, min(y, img_h - 1))
     w = max(0, min(w, img_w - x))
     h = max(0, min(h, img_h - y))
     return x, y, w, h
+
 
 for label_file in os.listdir(labels_dir):
     if not label_file.endswith(".txt"):
@@ -39,7 +44,8 @@ for label_file in os.listdir(labels_dir):
     if "_jpg.rf" in base_name:
         base_name = base_name.split("_jpg.rf")[0]
 
-    image_path = os.path.join(images_dir, os.path.splitext(label_file)[0] + IMAGE_EXT)
+    image_path = os.path.join(
+        images_dir, os.path.splitext(label_file)[0] + IMAGE_EXT)
     label_path = os.path.join(labels_dir, label_file)
 
     if not os.path.exists(image_path):
@@ -79,7 +85,8 @@ for label_file in os.listdir(labels_dir):
     # 번호판 전체 저장
     if np.any(plate_mask):
         plate_img = cv2.bitwise_and(img, img, mask=plate_mask)
-        cv2.imwrite(os.path.join(output_dir, f"{base_name}_plate{IMAGE_EXT}"), plate_img)
+        cv2.imwrite(os.path.join(
+            output_dir, f"{base_name}_plate{IMAGE_EXT}"), plate_img)
 
     # 텍스트 개수에 따른 저장
     if len(text_items) == 1:
@@ -90,7 +97,8 @@ for label_file in os.listdir(labels_dir):
         x, y, w, h = clamp_bbox(x, y, w, h, img_w, img_h)
         crop = masked[y:y+h, x:x+w]
         if crop.size > 0:
-            cv2.imwrite(os.path.join(output_dir, f"{base_name}_s1{IMAGE_EXT}"), crop)
+            cv2.imwrite(os.path.join(
+                output_dir, f"{base_name}_s1{IMAGE_EXT}"), crop)
 
     elif len(text_items) == 2:
         # _d1, _d2 저장
@@ -102,19 +110,17 @@ for label_file in os.listdir(labels_dir):
             x, y, w, h = clamp_bbox(x, y, w, h, img_w, img_h)
             crop = masked[y:y+h, x:x+w]
             if crop.size > 0:
-                cv2.imwrite(os.path.join(output_dir, f"{base_name}_{tag}{IMAGE_EXT}"), crop)
+                cv2.imwrite(os.path.join(
+                    output_dir, f"{base_name}_{tag}{IMAGE_EXT}"), crop)
 
 print("✅ 처리 완료1")
 
-import os
-import re
-#from collections import defaultdict
-import itertools
-
+# from collections import defaultdict
 
 
 # 경로 설정
-target_dir = r"D:\Users\ngins\Projects\2025.07.10_심화과정-인공지능_YOLO기반_부트캠프\Datasets\[원천]자동차번호판OCR데이터"  # 원본 폴더
+# 원본 폴더
+target_dir = r"D:\Users\ngins\Projects\2025.07.10_심화과정-인공지능_YOLO기반_부트캠프\Datasets\[원천]자동차번호판OCR데이터"
 source_dir = r"C:\Users\ngins\Git\python.initial\20250904\runs\cropped_images"  # 작업 폴더
 
 IMG_EXTS = (".jpg", ".jpeg", ".png")
@@ -137,7 +143,7 @@ for tf in os.listdir(target_dir):
 # mapping의 앞 5개만 출력
 # for k, v in itertools.islice(mapping.items(), 5):
 for k, v in mapping.items():
-    if k == ('04','0865-2'):
+    if k == ('04', '0865-2'):
         print(k, "→", v)
 
 # source 처리

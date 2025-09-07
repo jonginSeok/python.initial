@@ -12,6 +12,8 @@ import torch.nn as nn
 # -------------------------
 # 1. IoU 계산
 # -------------------------
+
+
 def iou(box1, box2):
     # box: [x_min, y_min, x_max, y_max]
     xA = max(box1[0], box2[0])
@@ -27,6 +29,8 @@ def iou(box1, box2):
 # -------------------------
 # 2. mAP 계산 (IoU>0.8, 클래스 구분)
 # -------------------------
+
+
 def compute_map(preds, gts, iou_thresh=0.8):
     """
     preds: list of [x1,y1,x2,y2,class_id,conf]
@@ -78,6 +82,8 @@ def compute_map(preds, gts, iou_thresh=0.8):
 # -------------------------
 # 3. CER / 정확도
 # -------------------------
+
+
 def levenshtein(a, b):
     if len(a) < len(b):
         a, b = b, a
@@ -90,6 +96,7 @@ def levenshtein(a, b):
         prev = curr
     return prev[-1]
 
+
 def compute_cer(preds, gts):
     tot_err, tot_len = 0, 0
     for p, g in zip(preds, gts):
@@ -97,23 +104,29 @@ def compute_cer(preds, gts):
         tot_len += max(1, len(g))
     return tot_err / tot_len
 
+
 def exact_match_accuracy(preds, gts):
     return sum(int(p == g) for p, g in zip(preds, gts)) / len(gts)
 
 # -------------------------
 # 4. OCR Dataset / Collator (패딩)
 # -------------------------
+
+
 class OCRDataset(Dataset):
     def __init__(self, rows, transform=None):
         self.rows = rows
         self.transform = transform
+
     def __len__(self):
         return len(self.rows)
+
     def __getitem__(self, idx):
         img = Image.open(self.rows[idx]["image_path"]).convert("L")
         if self.transform:
             img = self.transform(img)
         return img, self.rows[idx]["label"]
+
 
 class LabelEncoder:
     def __init__(self, labels):
@@ -122,8 +135,10 @@ class LabelEncoder:
         self.idx2char = {i+1: ch for i, ch in enumerate(charset)}
         self.blank_idx = 0
         self.num_classes = len(self.char2idx) + 1
+
     def encode(self, text):
         return [self.char2idx[ch] for ch in text]
+
     def decode_ctc(self, probs):
         indices = torch.argmax(probs, dim=-1).tolist()
         prev = None
@@ -133,14 +148,17 @@ class LabelEncoder:
                 out.append(t)
             prev = t
         return "".join(self.idx2char[i] for i in out if i in self.idx2char)
+
     def indices_to_text(self, indices):
         return "".join(self.idx2char[i] for i in indices if i in self.idx2char)
+
 
 class Collator:
     def __init__(self, encoder, img_height=32):
         self.encoder = encoder
         self.img_height = img_height
         self.resize = transforms.Resize
+
     def __call__(self, batch):
         imgs, labels = zip(*batch)
         resized_imgs, widths = [], []
@@ -187,6 +205,8 @@ class Collator:
 #         feats = self.cnn(x).squeeze(2).permute(2, 0, 1)
 #         seq, _ = self.rnn(feats)
 #         return self.fc(seq)
+
+
 class CRNN(nn.Module):
     def __init__(self, imgH, nc, nclass, nh):
         super(CRNN, self).__init__()
@@ -227,6 +247,7 @@ class CRNN(nn.Module):
         output = self.rnn(conv)  # [width, batch, nclass]
         return output
 
+
 class BidirectionalLSTM(nn.Module):
     def __init__(self, nIn, nHidden, nOut):
         super(BidirectionalLSTM, self).__init__()
@@ -244,6 +265,8 @@ class BidirectionalLSTM(nn.Module):
 # -------------------------
 # 6. 통합 평가 실행
 # -------------------------
+
+
 def run_report(gt_boxes, pred_boxes, gt_texts, pred_texts):
     mAP, ap_per_class = compute_map(pred_boxes, gt_boxes, iou_thresh=0.8)
     cer = compute_cer(pred_texts, gt_texts)
@@ -255,6 +278,7 @@ def run_report(gt_boxes, pred_boxes, gt_texts, pred_texts):
         print(f"   └ 클래스 {i}: AP = {ap:.4f}")
     print(f"🔹 OCR CER (문자 오류율): {cer:.4f}")
     print(f"🔹 OCR 정확도 (완전 일치율): {acc*100:.2f}%")
+
 
 # -------------------------
 # 7. 예시 실행
@@ -286,4 +310,4 @@ if __name__ == "__main__":
     └ 클래스 2: AP = 0.7273
 🔹 OCR CER (문자 오류율): 0.0625
 🔹 OCR 정확도 (완전 일치율): 50.00%
-""" 
+"""

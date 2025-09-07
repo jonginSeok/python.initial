@@ -10,6 +10,8 @@ yolo task=segment mode=train model=yolov8s-seg.pt data=data.yaml epochs=100 imgs
 
 성능 확인: 학습 후 results.csv 또는 runs/segment/train/ 내 metrics 확인 → mAP50, mAP50-95 등
 """
+import os
+import cv2
 from ultralytics import YOLO
 
 if __name__ == '__main__':
@@ -36,7 +38,6 @@ yolo task=segment mode=predict model=best.pt source=test_images/ save=True
 번호판 내부 텍스트만 인식되는지 확인: 시각적으로 확인하거나, 클래스별로 필터링해서 분석
 
 """
-from ultralytics import YOLO
 
 # 모델 로드 (학습된 segmentation 모델 경로)
 model = YOLO("runs/segment/seg_transfer3/weights/best.pt")
@@ -58,14 +59,15 @@ for result in results:
 3️⃣ 바운딩 박스 오려내기 및 이미지 저장
 OpenCV 사용 예시:
 """
-import cv2
-import os
+
 
 def crop_and_save(image_path, bbox, save_path):
     img = cv2.imread(image_path)
     x1, y1, x2, y2 = bbox  # 바운딩 박스 좌표
     cropped = img[y1:y2, x1:x2]
     cv2.imwrite(save_path, cropped)
+
+
 """
 파일명 규칙:
 - 번호판 전체: origin_name_plate.jpg

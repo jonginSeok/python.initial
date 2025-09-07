@@ -19,7 +19,7 @@ for fname in os.listdir(target_dir):
         continue
 
     prefix = parts[0]  # 예: 01가1134-2
-    suffix = parts[-1] # plate, s1, d1, d2
+    suffix = parts[-1]  # plate, s1, d1, d2
 
     label = None
     m = re.match(r"^(\d+)([가-힣])(\d+)(?:-\d+)?$", prefix)

@@ -1,3 +1,4 @@
+from ultralytics import YOLO
 # Car Number Images 500 Annotation
 
 """
@@ -15,7 +16,6 @@ pip install ultralytics
 
 그 다음 Python 코드에서 필요한 모듈을 import 합니다:
 """
-from ultralytics import YOLO
 
 """
 🚀 2. 모델 로드 및 실행 예제

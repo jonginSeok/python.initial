@@ -50,6 +50,8 @@ char2idx = {c: i+1 for i, c in enumerate(charset_list)}  # 0은 CTC blank
 idx2char = {i+1: c for i, c in enumerate(charset_list)}
 
 # ===== 2. Dataset 클래스 =====
+
+
 class OCRDataset(Dataset):
     def __init__(self, df, transform=None):
         self.df = df
@@ -67,15 +69,19 @@ class OCRDataset(Dataset):
         label_idx = [char2idx[c] for c in label_str]
         return image, torch.tensor(label_idx, dtype=torch.long), label_str
 
+
 transform = transforms.Compose([
     transforms.Resize((32, 128)),
     transforms.ToTensor()
 ])
 
 dataset = OCRDataset(df, transform)
-loader = DataLoader(dataset, batch_size=16, shuffle=True, collate_fn=lambda b: collate_fn(b))
+loader = DataLoader(dataset, batch_size=16, shuffle=True,
+                    collate_fn=lambda b: collate_fn(b))
 
 # ===== 3. Collate 함수 =====
+
+
 def collate_fn(batch):
     images, labels, texts = zip(*batch)
     images = torch.stack(images)
@@ -84,6 +90,8 @@ def collate_fn(batch):
     return images, labels, label_lengths, texts
 
 # ===== 4. CRNN 모델 정의 =====
+
+
 class CRNN(nn.Module):
     def __init__(self, num_classes):
         super().__init__()
@@ -91,7 +99,8 @@ class CRNN(nn.Module):
             nn.Conv2d(1, 64, 3, 1, 1), nn.ReLU(), nn.MaxPool2d(2, 2),
             nn.Conv2d(64, 128, 3, 1, 1), nn.ReLU(), nn.MaxPool2d(2, 2)
         )
-        self.rnn = nn.LSTM(128*8, 256, bidirectional=True, num_layers=2, batch_first=True)
+        self.rnn = nn.LSTM(128*8, 256, bidirectional=True,
+                           num_layers=2, batch_first=True)
         self.fc = nn.Linear(512, num_classes)
 
     def forward(self, x):
@@ -101,6 +110,7 @@ class CRNN(nn.Module):
         x, _ = self.rnn(x)
         x = self.fc(x)
         return x
+
 
 # ===== 5. 학습 준비 =====
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -117,14 +127,18 @@ for epoch in range(50):
         optimizer.zero_grad()
         outputs = model(images)  # [B, W, num_classes]
         outputs = outputs.log_softmax(2)
-        input_lengths = torch.full(size=(images.size(0),), fill_value=outputs.size(1), dtype=torch.long)
-        loss = criterion(outputs.permute(1, 0, 2), labels, input_lengths, label_lengths)
+        input_lengths = torch.full(
+            size=(images.size(0),), fill_value=outputs.size(1), dtype=torch.long)
+        loss = criterion(outputs.permute(1, 0, 2), labels,
+                         input_lengths, label_lengths)
         loss.backward()
         optimizer.step()
         total_loss += loss.item()
     print(f"[E{epoch+1}] Loss: {total_loss/len(loader):.4f}")
 
 # ===== 7. OCR 평가 (CER, Accuracy) =====
+
+
 def decode(preds):
     pred_texts = []
     for p in preds:
@@ -137,6 +151,7 @@ def decode(preds):
             prev = idx
         pred_texts.append(text)
     return pred_texts
+
 
 def levenshtein(a: str, b: str) -> int:
     # """문자열 a와 b의 레벤슈타인 거리(편집 거리)를 계산"""
@@ -153,6 +168,7 @@ def levenshtein(a: str, b: str) -> int:
         prev_row = curr_row
     return prev_row[-1]
 
+
 model.eval()
 all_gt, all_pred = [], []
 with torch.no_grad():
@@ -164,16 +180,19 @@ with torch.no_grad():
         all_pred.extend(preds)
 
 acc = accuracy_score(all_gt, all_pred)
-cer = np.mean([levenshtein(gt, pr)/len(gt) for gt, pr in zip(all_gt, all_pred)])
+cer = np.mean([levenshtein(gt, pr)/len(gt)
+              for gt, pr in zip(all_gt, all_pred)])
 print(f"OCR Accuracy: {acc*100:.2f}% | CER: {cer:.4f}")
 
 # ===== 8. mAP@0.8 계산 (예시) =====
 # GT 박스와 예측 박스가 있다고 가정하고 IoU 계산 후 mAP 산출
 # (여기서는 함수 틀만 제공)
 # def compute_map(gt_boxes, pred_boxes, iou_thresh=0.8):
-    # gt_boxes, pred_boxes: {image_id: [(x1,y1,x2,y2,class), ...]}
-    # IoU 계산 후 AP → mAP
-    # pass
+# gt_boxes, pred_boxes: {image_id: [(x1,y1,x2,y2,class), ...]}
+# IoU 계산 후 AP → mAP
+# pass
+
+
 def compute_map(gt_boxes, pred_boxes, iou_thresh=0.8):
     # """
     # preds: list of [x1,y1,x2,y2,class_id,conf]
@@ -221,6 +240,7 @@ def compute_map(gt_boxes, pred_boxes, iou_thresh=0.8):
         ap_per_class.append(ap)
 
     return np.mean(ap_per_class), ap_per_class
+
 
 # ===== 9. 최종 리포트 =====
 print("=== Final Report ===")

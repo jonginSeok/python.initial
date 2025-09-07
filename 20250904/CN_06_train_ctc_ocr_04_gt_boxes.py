@@ -15,6 +15,8 @@ class_map = {
 }
 
 # 마스크 좌표 → 바운딩 박스 변환
+
+
 def polygon_to_bbox(points, img_w, img_h):
     xs = points[0::2]
     ys = points[1::2]
@@ -23,6 +25,7 @@ def polygon_to_bbox(points, img_w, img_h):
     xmin, xmax = min(abs_x), max(abs_x)
     ymin, ymax = min(abs_y), max(abs_y)
     return round(xmin), round(ymin), round(xmax), round(ymax)
+
 
 # GT 변환
 label_dir = "20250904/CarNumber.v6i.yolov8-obb/valid/labels"   # YOLOv8n-seg 라벨 폴더
@@ -45,6 +48,7 @@ with open("20250904/runs/gt_boxes.txt", "w", newline="") as f:
                 cls_id = int(parts[0])
                 polygon = parts[1:]
                 xmin, ymin, xmax, ymax = polygon_to_bbox(polygon, img_w, img_h)
-                writer.writerow([img_name, xmin, ymin, xmax, ymax, class_map[cls_id]])
+                writer.writerow(
+                    [img_name, xmin, ymin, xmax, ymax, class_map[cls_id]])
 
 print("[INFO] gt_boxes.txt 생성 완료")

@@ -1,6 +1,7 @@
 import os
 import csv
 
+
 def check_plate_rows_from_yolo_label(label_path):
     """
     YOLO 형식 라벨 파일을 읽어 1행/2행 번호판 판별
@@ -16,7 +17,7 @@ def check_plate_rows_from_yolo_label(label_path):
                 continue
             cls_id = int(parts[0])
             if cls_id in class_counts:
-                class_counts[cls_id] += 1 # 한개의 파일당 line별로
+                class_counts[cls_id] += 1  # 한개의 파일당 line별로
 
     # 조건 체크
     if class_counts[0] != 1:
@@ -29,6 +30,7 @@ def check_plate_rows_from_yolo_label(label_path):
         return 1, None
     elif class_counts[1] == 2:
         return 2, None
+
 
 def process_labels_folder(labels_folder, output_csv):
     results = []
@@ -52,8 +54,10 @@ def process_labels_folder(labels_folder, output_csv):
 
     print(f"처리 완료! 결과가 '{output_csv}'에 저장되었습니다.")
 
+
 # 사용 예시
-gubun_val = "test" # train valid test
-labels_dir = "20250904/CarNumber.v2i.yolov8-obb/"+gubun_val+"/labels"  # YOLO 라벨 폴더 경로
+gubun_val = "test"  # train valid test
+labels_dir = "20250904/CarNumber.v2i.yolov8-obb/" + \
+    gubun_val+"/labels"  # YOLO 라벨 폴더 경로
 output_file = "20250904/runs/plate_rows_result/plate_rows_result_"+gubun_val+".csv"
 process_labels_folder(labels_dir, output_file)

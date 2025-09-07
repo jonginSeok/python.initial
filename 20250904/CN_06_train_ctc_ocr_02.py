@@ -14,6 +14,8 @@ from sklearn.model_selection import train_test_split
 # =========================
 # 1. CSV 읽기
 # =========================
+
+
 def load_csv_rows(csv_path):
     rows = []
     if not os.path.exists(csv_path):
@@ -36,6 +38,8 @@ def load_csv_rows(csv_path):
 # =========================
 # 2. Dataset
 # =========================
+
+
 class OCRDataset(Dataset):
     def __init__(self, rows, transform=None):
         self.rows = rows
@@ -54,6 +58,8 @@ class OCRDataset(Dataset):
 # =========================
 # 3. 라벨 인코더 (CTC용)
 # =========================
+
+
 class LabelEncoder:
     def __init__(self, labels: List[str]):
         charset = sorted(set("".join(labels)))
@@ -84,6 +90,8 @@ class LabelEncoder:
 # =========================
 # 4. Collate (비율 유지 + 패딩)
 # =========================
+
+
 class Collator:
     def __init__(self, encoder: LabelEncoder, img_height=32):
         self.encoder = encoder
@@ -119,12 +127,16 @@ class Collator:
             encoded_labels.extend(self.encoder.encode(l))
 
         batch_imgs = torch.stack(padded_imgs)  # (B, 1, H, Wmax)
-        batch_labels = torch.tensor(encoded_labels, dtype=torch.long)  # (sum_T,)
-        return batch_imgs, batch_labels, label_lengths, widths  # widths는 원본(패딩 전) 새 폭
+        batch_labels = torch.tensor(
+            encoded_labels, dtype=torch.long)  # (sum_T,)
+        # widths는 원본(패딩 전) 새 폭
+        return batch_imgs, batch_labels, label_lengths, widths
 
 # =========================
 # 5. CRNN 모델 (H=32 가정, 가로 방향 시퀀스)
 # =========================
+
+
 class CRNN(nn.Module):
     def __init__(self, num_classes: int, in_channels: int = 1, hidden: int = 256):
         super().__init__()
@@ -143,7 +155,8 @@ class CRNN(nn.Module):
             nn.ReLU(True),
             nn.Conv2d(256, 256, 3, 1, 1),
             nn.ReLU(True),
-            nn.MaxPool2d(kernel_size=(self._pool_h(32), 1), stride=(self._pool_h(32), 1)),  # H -> 1, W 유지
+            nn.MaxPool2d(kernel_size=(self._pool_h(32), 1),
+                         stride=(self._pool_h(32), 1)),  # H -> 1, W 유지
 
             nn.Conv2d(256, 512, 3, 1, 1),
             nn.ReLU(True),
@@ -177,10 +190,13 @@ class CRNN(nn.Module):
 # =========================
 # 6. 유틸: CTC 길이, 디코딩, CER
 # =========================
+
+
 def ctc_input_lengths(widths: List[int]) -> List[int]:
     # CNN에서 W가 대략 4배 다운샘플 (두 번의 2x2 풀링)
     # 이후 H squeeze는 W에 영향 없음
     return [max(1, w // 4) for w in widths]
+
 
 def greedy_decode_batch(logits: torch.Tensor, encoder: LabelEncoder) -> List[str]:
     # logits: (T, B, C)
@@ -193,6 +209,7 @@ def greedy_decode_batch(logits: torch.Tensor, encoder: LabelEncoder) -> List[str
         text = encoder.decode_ctc(path)
         out_texts.append(text)
     return out_texts
+
 
 def levenshtein(a: str, b: str) -> int:
     # 편집거리
@@ -211,6 +228,7 @@ def levenshtein(a: str, b: str) -> int:
         prev = curr
     return prev[-1]
 
+
 def compute_cer(preds: List[str], gts: List[str]) -> float:
     tot_err = 0
     tot_len = 0
@@ -219,6 +237,7 @@ def compute_cer(preds: List[str], gts: List[str]) -> float:
         tot_len += max(1, len(g))
     return tot_err / tot_len
 
+
 def exact_match_accuracy(preds: List[str], gts: List[str]) -> float:
     hit = sum(int(p == g) for p, g in zip(preds, gts))
     return hit / len(gts)
@@ -226,6 +245,8 @@ def exact_match_accuracy(preds: List[str], gts: List[str]) -> float:
 # =========================
 # 7. 학습/검증 루프
 # =========================
+
+
 def train_one_epoch(model, loader, optimizer, criterion, encoder, device):
     model.train()
     total_loss = 0.0
@@ -235,8 +256,10 @@ def train_one_epoch(model, loader, optimizer, criterion, encoder, device):
 
         optimizer.zero_grad()
         logits = model(imgs)                 # (T,B,C)
-        input_lengths = torch.tensor(ctc_input_lengths(widths), dtype=torch.long, device=device)  # (B,)
-        target_lengths = torch.tensor(label_lengths, dtype=torch.long, device=device)  # (B,)
+        input_lengths = torch.tensor(ctc_input_lengths(
+            widths), dtype=torch.long, device=device)  # (B,)
+        target_lengths = torch.tensor(
+            label_lengths, dtype=torch.long, device=device)  # (B,)
 
         # CTC expects log-probs
         log_probs = logits.log_softmax(dim=-1)  # (T,B,C)
@@ -249,6 +272,7 @@ def train_one_epoch(model, loader, optimizer, criterion, encoder, device):
         total_loss += loss.item()
     return total_loss / max(1, len(loader))
 
+
 @torch.no_grad()
 def evaluate(model, loader, criterion, encoder, device):
     model.eval()
@@ -260,8 +284,10 @@ def evaluate(model, loader, criterion, encoder, device):
         labels = labels.to(device)
         logits = model(imgs)  # (T,B,C)
 
-        input_lengths = torch.tensor(ctc_input_lengths(widths), dtype=torch.long, device=device)
-        target_lengths = torch.tensor(label_lengths, dtype=torch.long, device=device)
+        input_lengths = torch.tensor(ctc_input_lengths(
+            widths), dtype=torch.long, device=device)
+        target_lengths = torch.tensor(
+            label_lengths, dtype=torch.long, device=device)
         log_probs = logits.log_softmax(dim=-1)
 
         loss = criterion(log_probs, labels, input_lengths, target_lengths)
@@ -287,6 +313,8 @@ def evaluate(model, loader, criterion, encoder, device):
 # =========================
 # 8. 메인 실행
 # =========================
+
+
 def main():
     # 경로 수정
     csv_path = r"C:\Users\ngins\Git\python.initial\20250904\runs\cropped_images_labels.csv"
@@ -295,7 +323,8 @@ def main():
     if not rows:
         raise SystemExit("[ERROR] 학습할 데이터가 없습니다.")
 
-    train_rows, val_rows = train_test_split(rows, test_size=0.1, random_state=42, shuffle=True)
+    train_rows, val_rows = train_test_split(
+        rows, test_size=0.1, random_state=42, shuffle=True)
 
     encoder = LabelEncoder([r["label"] for r in rows])
 
@@ -306,14 +335,16 @@ def main():
         transforms.ToTensor()
     ])
 
-    BATCH_SIZE = 4 #32
+    BATCH_SIZE = 4  # 32
 
     train_ds = OCRDataset(train_rows, transform=transform)
     val_ds = OCRDataset(val_rows, transform=transform)
 
     collator = Collator(encoder, img_height=32)
-    train_loader = DataLoader(train_ds, batch_size=BATCH_SIZE, shuffle=True, num_workers=0, collate_fn=collator)
-    val_loader = DataLoader(val_ds, batch_size=BATCH_SIZE, shuffle=False, num_workers=0, collate_fn=collator)
+    train_loader = DataLoader(
+        train_ds, batch_size=BATCH_SIZE, shuffle=True, num_workers=0, collate_fn=collator)
+    val_loader = DataLoader(val_ds, batch_size=BATCH_SIZE,
+                            shuffle=False, num_workers=0, collate_fn=collator)
 
     # 테스트
     for imgs, labels, label_lengths, widths in train_loader:
@@ -324,20 +355,27 @@ def main():
         break
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    model = CRNN(num_classes=encoder.num_classes, in_channels=1, hidden=256).to(device)
+    model = CRNN(num_classes=encoder.num_classes,
+                 in_channels=1, hidden=256).to(device)
 
-    criterion = nn.CTCLoss(blank=encoder.blank_idx, reduction="mean", zero_infinity=True)
-    optimizer = torch.optim.AdamW(model.parameters(), lr=1e-3, weight_decay=1e-4)
-    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode="min", factor=0.5, patience=2) # , verbose=True
+    criterion = nn.CTCLoss(blank=encoder.blank_idx,
+                           reduction="mean", zero_infinity=True)
+    optimizer = torch.optim.AdamW(
+        model.parameters(), lr=1e-3, weight_decay=1e-4)
+    scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
+        optimizer, mode="min", factor=0.5, patience=2)  # , verbose=True
 
     epochs = 20
     best_cer = float("inf")
 
-    print(f"[INFO] 학습 시작: epochs={epochs}, device={device}, classes={encoder.num_classes}")
+    print(
+        f"[INFO] 학습 시작: epochs={epochs}, device={device}, classes={encoder.num_classes}")
 
     for epoch in range(1, epochs+1):
-        train_loss = train_one_epoch(model, train_loader, optimizer, criterion, encoder, device)
-        val_loss, val_cer, val_acc = evaluate(model, val_loader, criterion, encoder, device)
+        train_loss = train_one_epoch(
+            model, train_loader, optimizer, criterion, encoder, device)
+        val_loss, val_cer, val_acc = evaluate(
+            model, val_loader, criterion, encoder, device)
         scheduler.step(val_loss)
 
         print(f"[Epoch:{epoch:02d}] train_loss={train_loss:.4f} | val_loss={val_loss:.4f} | CER={val_cer:.4f} | Acc={val_acc*100:.2f}%")
@@ -361,6 +399,7 @@ def main():
 
     # 마지막 평가(베스트 기준)
     print(f"[DONE] Best CER={best_cer:.4f}")
+
 
 if __name__ == "__main__":
     main()

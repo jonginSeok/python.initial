@@ -12,8 +12,11 @@ from typing import List, Tuple, Optional
 # -----------------------------
 # 유틸리티
 # -----------------------------
+
+
 def clamp01(v: float) -> float:
     return max(0.0, min(1.0, v))
+
 
 def yolo_xywhn_to_xyxy(xc, yc, w, h, W, H):
     # 정규화 -> 픽셀 좌표 (좌상단-우하단)
@@ -25,9 +28,12 @@ def yolo_xywhn_to_xyxy(xc, yc, w, h, W, H):
     y1 = max(0, min(H - 1, y1))
     x2 = max(0, min(W - 1, x2))
     y2 = max(0, min(H - 1, y2))
-    if x2 <= x1: x2 = min(W - 1, x1 + 1)
-    if y2 <= y1: y2 = min(H - 1, y1 + 1)
+    if x2 <= x1:
+        x2 = min(W - 1, x1 + 1)
+    if y2 <= y1:
+        y2 = min(H - 1, y1 + 1)
     return x1, y1, x2, y2
+
 
 def polygon_norm_to_pixels(points_norm: List[float], W: int, H: int) -> np.ndarray:
     # [x1, y1, x2, y2, ...] 정규화 → 픽셀 좌표 Nx2
@@ -41,6 +47,8 @@ def polygon_norm_to_pixels(points_norm: List[float], W: int, H: int) -> np.ndarr
 # -----------------------------
 # 라벨 파서 (탐지/세그멘테이션 모두 지원)
 # -----------------------------
+
+
 def parse_yolo_label_file(label_path: str, img_w: int, img_h: int):
     """
     각 라인 파싱:
@@ -88,6 +96,8 @@ def parse_yolo_label_file(label_path: str, img_w: int, img_h: int):
 # -----------------------------
 # 그리기
 # -----------------------------
+
+
 def draw_boxes_on_image(
     image_path: str,
     label_path: str,
@@ -111,7 +121,7 @@ def draw_boxes_on_image(
         (0, 255, 0),     # 초록
         (255, 178, 0),   # 주황
         (255, 51, 51),   # 빨강
-        (153, 102, 255), # 보라
+        (153, 102, 255),  # 보라
         (0, 136, 170),   # 청록
     ]
 
@@ -130,10 +140,12 @@ def draw_boxes_on_image(
 
         # 폴리곤
         if draw_polygon and r["poly"] is not None and len(r["poly"]) >= 3:
-            cv2.polylines(img, [r["poly"]], isClosed=True, color=color, thickness=thickness)
+            cv2.polylines(img, [r["poly"]], isClosed=True,
+                          color=color, thickness=thickness)
 
         # 라벨 텍스트
-        cls_name = class_names[cls_id] if (class_names and 0 <= cls_id < len(class_names)) else str(cls_id)
+        cls_name = class_names[cls_id] if (
+            class_names and 0 <= cls_id < len(class_names)) else str(cls_id)
         if r["conf"] is not None:
             label = f"{cls_name} {r['conf']:.2f}"
         else:
@@ -144,12 +156,14 @@ def draw_boxes_on_image(
         bx1, by1 = x1, max(0, y1 - th - 6)
         bx2, by2 = x1 + tw + 6, y1
         cv2.rectangle(img, (bx1, by1), (bx2, by2), color, -1)
-        cv2.putText(img, label, (x1 + 3, y1 - 4), font, font_scale, (255, 255, 255), thickness, cv2.LINE_AA)
+        cv2.putText(img, label, (x1 + 3, y1 - 4), font, font_scale,
+                    (255, 255, 255), thickness, cv2.LINE_AA)
 
     # 저장 또는 반환
     if save_path is None:
         base = os.path.splitext(os.path.basename(image_path))[0]
-        save_path = os.path.join(os.path.dirname(image_path), f"{base}_drawn.jpg")
+        save_path = os.path.join(os.path.dirname(
+            image_path), f"{base}_drawn.jpg")
 
     ok = cv2.imwrite(save_path, img)
     if not ok:
@@ -174,7 +188,6 @@ def draw_boxes_on_image(
 #     print("저장:", out)
 
 
-
 """
 디렉터리 일괄 처리 옵션
 여러 장을 한 번에 처리하고 싶다면 아래 헬퍼를 추가해 사용하세요.
@@ -189,17 +202,21 @@ if __name__ == "__main__":
         image_exts=(".jpg", ".jpeg", ".png")
     ):
         os.makedirs(out_dir, exist_ok=True)
-        names = [n for n in os.listdir(images_dir) if n.lower().endswith(image_exts)]
+        names = [n for n in os.listdir(
+            images_dir) if n.lower().endswith(image_exts)]
         names.sort()
         for n in names:
             img_path = os.path.join(images_dir, n)
-            txt_path = os.path.join(labels_dir, os.path.splitext(n)[0] + ".txt")
+            txt_path = os.path.join(
+                labels_dir, os.path.splitext(n)[0] + ".txt")
             if not os.path.exists(txt_path):
                 print(f"[SKIP] 라벨 없음: {n}")
                 continue
-            save_path = os.path.join(out_dir, os.path.splitext(n)[0] + "_drawn.jpg")
+            save_path = os.path.join(
+                out_dir, os.path.splitext(n)[0] + "_drawn.jpg")
             try:
-                draw_boxes_on_image(img_path, txt_path, save_path, class_names, draw_polygon)
+                draw_boxes_on_image(img_path, txt_path,
+                                    save_path, class_names, draw_polygon)
                 print(f"[OK] {n}")
             except Exception as e:
                 print(f"[ERR] {n} → {e}")
@@ -208,7 +225,7 @@ if __name__ == "__main__":
 images_path = r"20250904/CarNumber.v4i.yolov8-obb/train/images"
 labels_path = r"20250904/CarNumber.v4i.yolov8-obb/train/labels"
 overlay_path = r"20250904/runs/mask_draw"
-draw_folder(images_path, labels_path, overlay_path, ["license_plate","text"])
+draw_folder(images_path, labels_path, overlay_path, ["license_plate", "text"])
 
 """
 체크 포인트

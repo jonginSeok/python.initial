@@ -120,7 +120,8 @@ if __name__ == "__main__":
     if not rows:
         exit("[ERROR] 학습할 데이터가 없습니다.")
 
-    train_rows, val_rows = train_test_split(rows, test_size=0.2, random_state=42)
+    train_rows, val_rows = train_test_split(
+        rows, test_size=0.2, random_state=42)
     encoder = LabelEncoder([r["label"] for r in rows])
 
     transform = transforms.ToTensor()
