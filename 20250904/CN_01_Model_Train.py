@@ -7,6 +7,6 @@ if __name__ == '__main__':
         epochs=100,
         imgsz=640,
         batch=16,
-        name='20250904/runs/seg_transfer',
+        name='20250904/runs/segment/seg_transfer',
         device='cuda'  # GPU 사용
     )
